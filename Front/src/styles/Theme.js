@@ -11,7 +11,7 @@ const TIER_COLOR =  {
 };
 
 export default {
-    bgColor: '#f5f5f5',
+    bgColor: '#71849b',
     whiteColor: '#ffffff',
     fontColor: '#e5ebef',
     mainTextColor: '#e5ebef',

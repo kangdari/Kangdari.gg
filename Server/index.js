@@ -1,13 +1,11 @@
 const express = require('express');
 const app = express();
-const axios = require('axios');
+const bodyParser = require('body-parser');
+const summonerRoute = require('./api/index');
 
-const { api_key } = require('./config/config')
+app.use(bodyParser.urlencoded({ extended: false })); // application/x-www-form-urlencoded
+app.use(bodyParser.json()); // application/json
 
-app.get('/',  async (req, res) => {
-    const { data } = await axios.get(`https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-name/20204095?api_key=${api_key}`)
-    console.log(data)
-    res.send('hello')
-})
+app.use('/summoner', summonerRoute);
 
 app.listen(5000, () => console.log('Listening at port 5000'))

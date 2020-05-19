@@ -1,7 +1,21 @@
 import api from '../common/apiUtil';
 
-// API 호출
+// 소환사명 검색
 export const getSummonerInfo = (summonerName) => {
     return api.get(`/summoner/search?summonerName=${summonerName}`);
 }
 
+// 소환사의 matchList 
+export const getMatchList = (puuid) => {
+    return api.get(`/summoner/match/list?puuid=${puuid}`);
+}
+
+// match 상세 정보 
+export const getMatchInfo = (puuid) => {
+    return api.get(`/summoner/match/info?puuid=${puuid}`);
+}
+
+// 소환사의 리그 정보 ( 티어, 점수 등 ... )
+export const getSummonerLeagueInfo = (summonerId) => {
+    return api.get(`/summoner/league/info?summonerId=${summonerId}`);
+}

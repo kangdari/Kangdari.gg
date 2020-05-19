@@ -6,7 +6,8 @@ const axios = require('axios');
 
 // 아이디 검색
 router.get('/search?:summonerName', async (req, res) => {
-    const summonerName = req.query.summonerName;
+    const summonerName = encodeURI(req.query.summonerName);
+    
     const { data } = await axios.get(`https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-name/${summonerName}?api_key=${api_key}`)
     const { accountId, id, name, puuid, summonerLevel } = data;
     res.json({ accountId, id, name, puuid, summonerLevel })

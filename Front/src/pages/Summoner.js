@@ -11,6 +11,7 @@ const Summoner = ({ match }) => {
     useEffect(() => {
         setLoading(true);
         const { summonerName } = match.params;
+        // encodeURI(summonerName)
 
         // 각 match의 정보 검색
         getSummonerInfo(summonerName).then(async res => {

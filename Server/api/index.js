@@ -12,5 +12,25 @@ router.get('/search?:summonerName', async (req, res) => {
     res.json({ accountId, id, name, puuid, summonerLevel })
 })
 
+// puuid > match List
+router.get('/match/list?:puuid', async (req, res) => {
+    const puuid = req.query.puuid;
+    // count: match 수
+    const { data } = await axios.get(`https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?count=3&api_key=${api_key}`)
+    res.json({ matchList: data });
+})
+
+router.get(`/match/info`, async (req, res) => {
+    const { match_id } = req.query;
+    const { data } = await axios.get(`https://asia.api.riotgames.com/tft/match/v1/matches/${match_id}?api_key=${api_key}`);
+    // 참가자 아이디 > puuid
+    // console.log(data)
+
+    const info = data.info
+    
+    // 여기서 각 매치의 정보를 정리하여 클라이언트에 전달
+
+    res.json({ info })
+})
 
 module.exports = router;

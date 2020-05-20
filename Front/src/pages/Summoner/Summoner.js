@@ -9,57 +9,65 @@ import ProfileMenu from './Profile/ProfileMenu';
 
 const Summoner = ({ match }) => {
     const [loading, setLoading] = useState(false);
-    const [summonerInfo, setSummonerInfo] = useState('');
-    const [summonerleagueInfo, setSummonerLeagueInfo] = useState('');
-    const [matchInfo, setMatchInfo] = useState('');
+    const [summonerInfo, setSummonerInfo] = useState(''); // 소환사 정보( 이름, 아이콘ID, 레벨 )
+    const [summonerleagueInfo, setSummonerLeagueInfo] = useState(''); // TFT 리그, 티어 정보
+    const [matchInfo, setMatchInfo] = useState(''); // TFT 전적 정보
 
     useEffect(() => {
         setLoading(true);
+        // setSummonerInfo('');
         const { summonerName } = match.params;
 
         // 각 match의 정보 검색
         getSummonerInfo(summonerName).then(async res => {
             const { id, accountId, puuid, summonerLevel, profileIconId, revisionDate, name } = res.data;
-        
-            Promise.all([
-                getMatchInfo(puuid), getSummonerLeagueInfo(id)
-            ]).then(([fetchMatchInfo, fetchLeagueInfo]) => {
-                setMatchInfo(fetchMatchInfo.data.matchInfo);
-                setSummonerLeagueInfo(fetchLeagueInfo.data.leagueInfo[0]);
-                setLoading(false);
-                setSummonerInfo({
-                    name,
-                    profileIconId,
-                    revisionDate,
-                    summonerLevel
-                });
-            })
+
+            if(!puuid){
+                setSummonerInfo('')
+            }
+
+            if(puuid){
+                Promise.all([
+                    getMatchInfo(puuid), getSummonerLeagueInfo(id)
+                ]).then(([fetchMatchInfo, fetchLeagueInfo]) => {
+                    setMatchInfo(fetchMatchInfo.data.matchInfo);
+                    setSummonerLeagueInfo(fetchLeagueInfo.data.leagueInfo[0]);
+                    setSummonerInfo({
+                        name,
+                        profileIconId,
+                        revisionDate,
+                        summonerLevel
+                    });
+                    setLoading(false);
+                })
+            }
         })
 
     }, [match.params]);
 
-    // console.log(summonerleagueInfo);
+    // console.log(summonerleagueInfo); 
     // console.log(matchInfo);
     // console.log(summonerInfo)
-
-    // if(loading){
-    //     console.log(loading)
-    //     return (
-    //         <>
-    //             loading...
-    //         </>
-    //     )
-    // }
 
     return (
         <>
             <Header />
             <Container>
-                <SummonerProfileContainer>
-                    <SummonerProfile summonerInfo={summonerInfo}/>
-                    <ProfileMenu summonerInfo={summonerInfo}/>
-                </SummonerProfileContainer>
-                
+                {
+                    summonerInfo ? (
+                        <SummonerProfileContainer>
+                            <SummonerProfile summonerInfo={summonerInfo}/>
+                            <ProfileMenu summonerInfo={summonerInfo} summonerleagueInfo={summonerleagueInfo}/>
+                        </SummonerProfileContainer>
+                    ) : (
+                        <SearchNotFound>
+                            <img src="/404.jpg"/>
+                            <SearchNotFoundText>검색 결과가 없습니다.</SearchNotFoundText>
+                        </SearchNotFound>
+                    )
+                }
+
+               
             </Container>
         </>
     );
@@ -69,20 +77,10 @@ export default Summoner;
 
 const Container = styled.div`
     margin-top: 100px;
-`
-const SummonerProfileContainer = styled.div`
-    /* display: flex; */
-    width: 100%;
+
     margin-right: auto;
     margin-left: auto;
 
-    /* 배경 이미지 */
-    background: #a0a0a0;
-    background-image: url("/bg-image5.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    /* 모바일 우선 - min-width px 이상에서 적용 */
     @media (min-width: 576px){
         max-width: 540px;
     }
@@ -95,6 +93,30 @@ const SummonerProfileContainer = styled.div`
     @media (min-width: 1200px){
         max-width: 1140px;
     }
+`
+const SummonerProfileContainer = styled.div`
+    /* display: flex; */
+    width: 100%;
+    /* 배경 이미지 */
+    background: #a0a0a0;
+    background-image: url("/bg-image5.png");
+    background-repeat: no-repeat;
+    background-size: cover;
 `;
 
+const SearchNotFound = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
+    img{
+        object-fit: cover;
+    }
+`;
+
+const SearchNotFoundText = styled.div`
+    margin-top: 30px;
+    font-size: 48px;
+    font-weight: 700;
+`;

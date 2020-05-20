@@ -7,9 +7,15 @@ const axios = require('axios');
 // 아이디 검색
 router.get('/search?:summonerName', async (req, res) => {
     const summonerName = encodeURI(req.query.summonerName);
+    const summonerInfo = []
     
-    const { data } = await axios.get(`https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-name/${summonerName}?api_key=${api_key}`)
-    const { accountId, id, name, puuid, summonerLevel, profileIconId, revisionDate } = data;
+    await axios.get(`https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-name/${summonerName}?api_key=${api_key}`)
+        .then(res => {
+            summonerInfo.push(res.data)
+        })
+        .catch(err => res.json({ err }))
+        
+    const { accountId, id, name, puuid, summonerLevel, profileIconId, revisionDate } = summonerInfo[0];
     res.json({ accountId, id, name, puuid, summonerLevel, profileIconId, revisionDate })
 })
 
@@ -33,11 +39,8 @@ router.get('/match/info', async (req, res) => {
             await axios.get(`https://asia.api.riotgames.com/tft/match/v1/matches/${match_id}?api_key=${api_key}`)
                 .then(res => {
                     const { metadata, info } = res.data;
+
                     const { game_datetime, game_length, game_variation, participants } = info;
-                    // 데이터 정리
-                    
-                    // 검색한 summoer 정보
-                    // console.log(participants.find(participant => participant.puuid === puuid) )
 
                     matchInfo.push({
                         puuid,
@@ -46,8 +49,6 @@ router.get('/match/info', async (req, res) => {
                         game_variation, // 은하계 모드
                         participants,   // 유저
                     })
-                    // summoner info
-                    // 소환사 아이콘, 레벨, 지역, 
                 });
         }))
         return matchInfo;
@@ -67,21 +68,28 @@ router.get('/league/info', async (req, res) => {
     // leagueInfo, 소환사의 랭크, 점수, 등등...
     const getLeagueInfo = axios.get(`https://kr.api.riotgames.com/tft/league/v1/entries/by-summoner/${summonerId}?api_key=${api_key}`)
 
-    await getLeagueInfo.then( league => {
+    await getLeagueInfo.then(league => {
+
+        // TFT MATCH 정보 없음
+        if(league.data.length === 0){
+            return res.json({ leagueInfo , message: '전적 없음'})
+        }
+
         const { tier, rank, leaguePoints, wins, losses, summonerName, summonerId } = league.data[0];
         leagueInfo.push({
             tier,
-            rank,
+            rank,   
             leaguePoints,
             wins,
             losses,
             summonerName,
             summonerId
         });
-    });
 
+        // TFT match 정보가 있을 때
+        return res.status(200).json({ leagueInfo })
+    });
     // console.log(leagueInfo)
-    return res.status(200).json({ leagueInfo })
 })
 
 module.exports = router;

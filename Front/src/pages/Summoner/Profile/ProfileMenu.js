@@ -2,17 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-const ProfileMenu = ({ summonerInfo }) => {
-    const { name } = summonerInfo;
+const ProfileMenu = ({ summonerInfo, summonerleagueInfo }) => {
+    let { name } = summonerInfo;
+    // if(name){
+    //     name = name.replace(/ /gi, '');
+    // }
     const url = `/summoner/${name}`;
 
     return (
         <ProfileMenuContainer>
             <LinkBox>
                 <LinkItem to={url} activeClassName="active" >시즌3 종합</LinkItem>
-                {/* 경로 설정 필요 */}
-                <LinkItem to="/s" activeClassName="active" >매치 히스토리</LinkItem>
-                <LinkItem to="/d" activeClassName="active" >LP 변화 추이</LinkItem>
+                {/* match 정보가 있을 때만 렌더링 */}
+                { summonerleagueInfo ?
+                    <>
+                        {/* 경로 설정 필요 */}
+                        <LinkItem to="/s" activeClassName="active" >매치 히스토리</LinkItem>
+                        <LinkItem to="/d" activeClassName="active" >LP 변화 추이</LinkItem>
+                    </>
+                    : '' 
+                }
             </LinkBox>
         </ProfileMenuContainer>
     );

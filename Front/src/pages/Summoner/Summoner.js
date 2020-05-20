@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { CircularProgress } from '@material-ui/core';
 
 import { getSummonerInfo, getMatchList, getMatchInfo, getSummonerLeagueInfo } from '../../api/api';
 import Header from '../../components/Header';
@@ -15,7 +16,6 @@ const Summoner = ({ match }) => {
 
     useEffect(() => {
         setLoading(true);
-        // setSummonerInfo('');
         const { summonerName } = match.params;
 
         // 각 match의 정보 검색
@@ -23,10 +23,10 @@ const Summoner = ({ match }) => {
             const { id, accountId, puuid, summonerLevel, profileIconId, revisionDate, name } = res.data;
 
             if(!puuid){
-                setSummonerInfo('')
+                setSummonerInfo('');
+                setLoading(false);
             }
-
-            if(puuid){
+            else if(puuid){
                 Promise.all([
                     getMatchInfo(puuid), getSummonerLeagueInfo(id)
                 ]).then(([fetchMatchInfo, fetchLeagueInfo]) => {
@@ -45,9 +45,16 @@ const Summoner = ({ match }) => {
 
     }, [match.params]);
 
-    // console.log(summonerleagueInfo); 
-    // console.log(matchInfo);
-    // console.log(summonerInfo)
+    if(loading){
+        return(
+            <>
+                <Header />
+                <LoadingBox>
+                    <CircularProgress color="black"/>
+                </LoadingBox>
+            </>
+        )
+    }
 
     return (
         <>
@@ -66,8 +73,6 @@ const Summoner = ({ match }) => {
                         </SearchNotFound>
                     )
                 }
-
-               
             </Container>
         </>
     );
@@ -119,4 +124,10 @@ const SearchNotFoundText = styled.div`
     margin-top: 30px;
     font-size: 48px;
     font-weight: 700;
+`;
+
+const LoadingBox = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
 `;

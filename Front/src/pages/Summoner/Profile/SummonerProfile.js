@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 
-
 // 아이콘, 레벨 , 이름, 갱신일
 const SummonerProfile = ({ summonerInfo }) => {
     let { name, summonerLevel, profileIconId, revisionDate } = summonerInfo;

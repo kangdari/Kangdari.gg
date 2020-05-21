@@ -50,7 +50,7 @@ const Summoner = ({ match }) => {
             <>
                 <Header />
                 <LoadingBox>
-                    <CircularProgress color="black"/>
+                    <CircularProgress />
                 </LoadingBox>
             </>
         )

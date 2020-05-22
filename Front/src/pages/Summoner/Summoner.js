@@ -7,11 +7,12 @@ import Header from '../../components/Header';
 
 import SummonerProfile from './Profile/SummonerProfile';
 import ProfileMenu from './Profile/ProfileMenu';
+import LeagueInfo from './LeagueInfo/LeagueInfo';
 
 const Summoner = ({ match }) => {
     const [loading, setLoading] = useState(false);
     const [summonerInfo, setSummonerInfo] = useState(''); // 소환사 정보( 이름, 아이콘ID, 레벨 )
-    const [summonerleagueInfo, setSummonerLeagueInfo] = useState(''); // TFT 리그, 티어 정보
+    const [summonerleagueInfo, setSummonerLeagueInfo] = useState([]); // TFT 리그, 티어 정보
     const [matchInfo, setMatchInfo] = useState(''); // TFT 전적 정보
 
     useEffect(() => {
@@ -60,12 +61,18 @@ const Summoner = ({ match }) => {
         <>
             <Header />
             <Container>
+                {/* Summoner 검색 결과 */}
                 {
                     summonerInfo ? (
-                        <SummonerProfileContainer>
-                            <SummonerProfile summonerInfo={summonerInfo}/>
-                            <ProfileMenu summonerInfo={summonerInfo} summonerleagueInfo={summonerleagueInfo}/>
-                        </SummonerProfileContainer>
+                        <>
+                            <SummonerProfileContainer>
+                                <SummonerProfile summonerInfo={summonerInfo}/>
+                                <ProfileMenu summonerInfo={summonerInfo} summonerleagueInfo={summonerleagueInfo}/>
+                            </SummonerProfileContainer>
+                                <LeagueInfo summonerleagueInfo={summonerleagueInfo}/> 
+                        </>
+
+
                     ) : (
                         <SearchNotFound>
                             <img src="/404.jpg"/>
@@ -73,6 +80,9 @@ const Summoner = ({ match }) => {
                         </SearchNotFound>
                     )
                 }
+
+
+
             </Container>
         </>
     );

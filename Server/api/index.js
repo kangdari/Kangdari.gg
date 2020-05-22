@@ -69,9 +69,16 @@ router.get('/league/info', async (req, res) => {
     const getLeagueInfo = axios.get(`https://kr.api.riotgames.com/tft/league/v1/entries/by-summoner/${summonerId}?api_key=${api_key}`)
 
     await getLeagueInfo.then(league => {
-
         // TFT MATCH 정보 없음
         if(league.data.length === 0){
+            leagueInfo.push({
+                tier: 'unranked',
+                rank: '',   
+                leaguePoints: 0,
+                wins: 0,
+                losses: 0,
+                summonerName: '',
+            })
             return res.json({ leagueInfo , message: '전적 없음'})
         }
 
@@ -83,7 +90,6 @@ router.get('/league/info', async (req, res) => {
             wins,
             losses,
             summonerName,
-            summonerId
         });
 
         // TFT match 정보가 있을 때

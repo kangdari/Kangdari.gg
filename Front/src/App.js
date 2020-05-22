@@ -2,6 +2,8 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components'
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import GlobalStyle from './styles/GlobalStyle';
 import Theme from './styles/Theme';
 import Routes from './pages/Routes';

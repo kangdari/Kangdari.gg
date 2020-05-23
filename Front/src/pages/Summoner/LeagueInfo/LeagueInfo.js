@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
 
-const LeagueInfo = ({summonerleagueInfo}) => {
+// 
 
-    const { tier, rank, leaguePoints, wins, losses, summonerName } = summonerleagueInfo;
-
-    // const width = 
-    // console.log(leaguePoints/100*100)
-    // console.log(parseInt(leaguePoints/100))
-
-    // http://kangdari.gg.s3.ap-northeast-2.amazonaws.com/emblems/Emblem_Bronze.png
+const LeagueInfo = ({summonerleagueInfo, averageRank}) => {
+    const { tier, rank, leaguePoints, wins, losses } = summonerleagueInfo;
+    const totalMatch = wins + losses;
+    const winRate = totalMatch ? (wins/totalMatch*100).toFixed(1) : 0;
 
     const url = `http://kangdari.gg.s3.ap-northeast-2.amazonaws.com/emblems/${tier}.png`
 
@@ -22,7 +19,6 @@ const LeagueInfo = ({summonerleagueInfo}) => {
                 <Col xl={4}>
                     <TierBox>
                         <TierInfo>
-                            {/* unranked 이미지 추가 */}
                             <TierIconBox>
                                 <TierIcon src={url} />  
                             </TierIconBox>
@@ -36,12 +32,36 @@ const LeagueInfo = ({summonerleagueInfo}) => {
                                     <TierInnerGraph tier={tier} width={`${leaguePoints >= 100 ? 100 : leaguePoints}%`}></TierInnerGraph>
                                 </TierGraph>
                             </TierSummary>
-   
+
                         </TierInfo>
-                        <TierStats></TierStats>
+                        <TierStats>
+                                <Row>
+                                    <Col xs={6} className="stat">
+                                        <span>승리</span>
+                                        <span>{wins}</span>
+                                    </Col>
+                                    <Col xs={6} className="stat">
+                                        <span>승률</span>
+                                        {winRate ? (
+                                            <span>{winRate}%</span>   
+                                        ) : 0 }
+                                    </Col>
+                                    <Col xs={6} className="stat">
+                                        <span>게임 수</span>
+                                        <span>{totalMatch}</span>
+                                    </Col>
+                                    <Col xs={6} className="stat">
+                                        <span>평균 등수(10판)</span>
+                                        <span># {averageRank}</span>
+                                    </Col>
+
+                                </Row>
+                            </TierStats>
                     </TierBox>
                 </Col>
-                <Col xl={8}></Col>
+                <Col xl={8}>
+                    그래프...
+                </Col>
             </Row>
         </LeagueInfoContainer>
     );
@@ -54,16 +74,18 @@ const LeagueInfoContainer = styled(Container)`
 `;
 
 const TierBox = styled.div`
-
+    border: 1px solid grey;
 `;
 
 const TierInfo = styled.div`
     display: flex;
     padding: 20px 5px 21px 15px;
+    /* background : #ffffff; */
 `;
 
 const TierIconBox = styled.div`
     padding: 4px 12px;
+    margin-right: 16px;
 
     img{
         width: 64px;
@@ -114,7 +136,6 @@ const TierGraph = styled.div`
     border-radius: 3px;
 `
 
-// 여러번 사용
 const TierInnerGraph = styled.div`  
     height: 4px;
     background: ${props => props.tier ? props.theme.tierColor[props.tier] : '#363944'};
@@ -123,6 +144,20 @@ const TierInnerGraph = styled.div`
 `
 
 const TierStats = styled.div`
+    padding: 0 20px 5px 20px;
+
+    .stat{
+        padding: 10px 10px;
+        display: flex;
+        justify-content: space-between;
+
+        span:nth-child(1){
+            font-size: 11px;
+        }
+        span:nth-child(2){
+            font-size: 16px;
+        }
+    }
 
 `;
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { CircularProgress } from '@material-ui/core';
 
-import { getSummonerInfo, getMatchList, getMatchInfo, getSummonerLeagueInfo } from '../../api/api';
+import { getSummonerInfo, getAverageRank, getMatchInfo, getSummonerLeagueInfo } from '../../api/api';
 import Header from '../../components/Header';
 
 import SummonerProfile from './Profile/SummonerProfile';
@@ -13,6 +13,7 @@ const Summoner = ({ match }) => {
     const [loading, setLoading] = useState(false);
     const [summonerInfo, setSummonerInfo] = useState(''); // 소환사 정보( 이름, 아이콘ID, 레벨 )
     const [summonerleagueInfo, setSummonerLeagueInfo] = useState([]); // TFT 리그, 티어 정보
+    const [averageRank, setAverageRank] = useState(0);
     const [matchInfo, setMatchInfo] = useState(''); // TFT 전적 정보
 
     useEffect(() => {
@@ -21,7 +22,7 @@ const Summoner = ({ match }) => {
 
         // 각 match의 정보 검색
         getSummonerInfo(summonerName).then(async res => {
-            const { id, accountId, puuid, summonerLevel, profileIconId, revisionDate, name } = res.data;
+            const { id, puuid, summonerLevel, profileIconId, revisionDate, name } = res.data;
 
             if(!puuid){
                 setSummonerInfo('');
@@ -29,10 +30,11 @@ const Summoner = ({ match }) => {
             }
             else if(puuid){
                 Promise.all([
-                    getMatchInfo(puuid), getSummonerLeagueInfo(id)
-                ]).then(([fetchMatchInfo, fetchLeagueInfo]) => {
+                    getMatchInfo(puuid), getSummonerLeagueInfo(id), getAverageRank(puuid) 
+                ]).then(([fetchMatchInfo, fetchLeagueInfo, fetchAverageRank]) => {
                     setMatchInfo(fetchMatchInfo.data.matchInfo);
                     setSummonerLeagueInfo(fetchLeagueInfo.data.leagueInfo[0]);
+                    setAverageRank(fetchAverageRank.data.averageRank);
                     setSummonerInfo({
                         name,
                         profileIconId,
@@ -69,19 +71,18 @@ const Summoner = ({ match }) => {
                                 <SummonerProfile summonerInfo={summonerInfo}/>
                                 <ProfileMenu summonerInfo={summonerInfo} summonerleagueInfo={summonerleagueInfo}/>
                             </SummonerProfileContainer>
-                                <LeagueInfo summonerleagueInfo={summonerleagueInfo}/> 
+                                <LeagueInfo summonerleagueInfo={summonerleagueInfo} averageRank={averageRank}/> 
+                                
                         </>
 
 
                     ) : (
                         <SearchNotFound>
-                            <img src="/404.jpg"/>
+                            <img src="/404.jpg" alt="404_img" />
                             <SearchNotFoundText>검색 결과가 없습니다.</SearchNotFoundText>
                         </SearchNotFound>
                     )
                 }
-
-
 
             </Container>
         </>

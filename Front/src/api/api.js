@@ -5,9 +5,9 @@ export const getSummonerInfo = (summonerName) => {
     return api.get(`/summoner/search?summonerName=${summonerName}`);
 }
 
-// 소환사의 matchList 
-export const getMatchList = (puuid) => {
-    return api.get(`/summoner/match/list?puuid=${puuid}`);
+// 소환사의 전체 matchList 
+export const getAverageRank = (puuid) => {
+    return api.get(`/summoner/match/rank?puuid=${puuid}`);
 }
 
 // match 상세 정보 

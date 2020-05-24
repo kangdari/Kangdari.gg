@@ -42,7 +42,7 @@ router.get("/search?:summonerName", async (req, res) => {
 router.get("/match/rank?:puuid", async (req, res) => {
   const puuid = req.query.puuid;
   let total = 0;
-  const count = 2; // 평균 등수 경기 수 
+  const count = 1; // 평균 등수 경기 수 
 
   const getMatchList = axios.get(
     `https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?count=${count}&api_key=${api_key}`
@@ -52,7 +52,7 @@ router.get("/match/rank?:puuid", async (req, res) => {
   // count = 경기 수 // api 요청 수 제한으로 현재 10판만 얻어냄
   const getAverageRank = async (matches) => {
     await Promise.all(
-        matches.map(async (match_id) => {
+      matches.map(async (match_id) => {
         await axios
           .get(
             `https://asia.api.riotgames.com/tft/match/v1/matches/${match_id}?api_key=${api_key}`
@@ -70,8 +70,8 @@ router.get("/match/rank?:puuid", async (req, res) => {
 
   return getMatchList.then(async (matchList) => {
     const matches = matchList.data;
-    await getAverageRank(matches).then((total) => 
-        res.status(200).json({ averageRank: total/count })
+    await getAverageRank(matches).then((total) =>
+      res.status(200).json({ averageRank: total / count })
     );
   });
 });
@@ -79,11 +79,11 @@ router.get("/match/rank?:puuid", async (req, res) => {
 // 각 match의 정보 검색
 router.get("/match/info", async (req, res) => {
   const { puuid } = req.query;
-  const count = 10; // 평균 등수 경기 수 
+  const count = 20; // 평균 등수 경기 수 
 
-  let rankSum = 0; // 등수 총 합
   let wins = 0; // 1등
   let tops = 0; // top
+  const rankArr = []; // 각 경기별 등수 배열
 
   // matchList 얻어냄 (3개)
   const getMatchList = axios.get(
@@ -91,66 +91,58 @@ router.get("/match/info", async (req, res) => {
   );
 
   // matchInfo 각 match의 정보를 정리
+  // matches.map문을 순회하는 과정에서 rank값을 순차적으로 뽑아내지 않고
+  // 비동기 작업이 완료된 순으로 뽑아내고 있어 등수 순서가 맞지않음.
+  // 순회를 순차적으로 완료하도록 수정이 필요
+  // map => for...of 문으로 변경 => 순차(직렬) 처리
   const getMatchInfo = async (matches) => {
     const matchInfo = [];
+    for (const match_id of matches) {
+      await axios
+        .get(
+          `https://asia.api.riotgames.com/tft/match/v1/matches/${match_id}?api_key=${api_key}`
+        )
+        .then(async (res) => {
+          const { info } = res.data;
 
-    await Promise.all(
-      matches.map(async (match_id) => {
-        await axios
-          .get(
-            `https://asia.api.riotgames.com/tft/match/v1/matches/${match_id}?api_key=${api_key}`
-          )
-          .then((res) => {
-            const { info } = res.data;
+          // 등수 총합
+          const rank = info.participants.find(user => user.puuid === puuid).placement;
+          rankArr.push(rank);
 
-            // 등수 총합
-            const rank = info.participants.find(user => user.puuid === puuid).placement;
-            rankSum += rank;
+          if (rank === 1) wins++; // 1등
+          else if (rank >= 2 && rank <= 4) tops++; // 2 ~ 4등 
 
-            if(rank === 1) wins++; // 1등
-            else if(rank >= 2 && rank <= 4) tops++; // 2 ~ 4등 
+          const {
+            game_datetime,
+            game_length,
+            game_variation,
+            participants,
+          } = info;
 
-            const {
-              game_datetime,
-              game_length,
-              game_variation,
-              participants,
-            } = info;
-
-            matchInfo.push({
-              puuid,
-              game_datetime, // 게임 날짜
-              game_length, // 게임 시간
-              game_variation, // 은하계 모드
-              participants, // 유저
-            });
-
+          matchInfo.push({
+            puuid,
+            game_datetime, // 게임 날짜
+            game_length, // 게임 시간
+            game_variation, // 은하계 모드
+            participants, // 유저
           });
-      })
-    );
-    return { 
-      matchInfo,
-      wins,
-      tops
+        });
     }
 
-    // return matchInfo; 
+    return {
+      matchInfo,
+      wins,
+      tops,
+      rankArr
+    }
   };
 
   return getMatchList.then(async (matchList) => {
     const matches = matchList.data;
-    await getMatchInfo(matches).then((matchInfo) => 
+    await getMatchInfo(matches).then((matchInfo) =>
       res.status(200).json({ matchInfo })
     );
   });
-
-  // return getMatchList.then(async (matchList) => {
-  //   const matches = matchList.data;
-  //   await getMatchInfo(matches).then((matchInfo) =>
-  //     res.status(200).json({ matchInfo })
-  //   );
-  // });
-
 });
 
 // 소환사의 리그 정보

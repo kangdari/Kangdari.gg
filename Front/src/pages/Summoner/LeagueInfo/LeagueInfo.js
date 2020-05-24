@@ -7,7 +7,7 @@ import styled from 'styled-components';
 // 
 import RecentGames from './RecentGames';
 
-const LeagueInfo = ({summonerleagueInfo, averageRank, Awins, Atops}) => {
+const LeagueInfo = ({summonerleagueInfo, averageRank, Awins, Atops, rankArr}) => {
     const { tier, rank, leaguePoints, wins, losses } = summonerleagueInfo;
     const totalMatch = wins + losses;
     const winRate = totalMatch ? (wins/totalMatch*100).toFixed(1) : 0;
@@ -64,7 +64,7 @@ const LeagueInfo = ({summonerleagueInfo, averageRank, Awins, Atops}) => {
                     그래프...
                 </Col>
             </Row>
-            <RecentGames Awins={Awins} Atops={Atops}/>
+            <RecentGames Awins={Awins} Atops={Atops} rankArr={rankArr}/>
         </LeagueInfoContainer>
     );
 };

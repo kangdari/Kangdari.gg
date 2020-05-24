@@ -2,8 +2,17 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
 
-const RecentGames = ({ Awins, Atops}) => {
-    
+const Rank = ({ranking}) => {
+
+    return(
+        <Box ranking={ranking}>{ranking}</Box>
+    )
+}
+
+const RecentGames = ({ Awins, Atops, rankArr}) => {
+    // 평균 등수
+    const averageRank = rankArr.reduce((acc, cur) => acc + cur)/rankArr.length;
+
     useEffect(()=>{
 
     })
@@ -16,7 +25,7 @@ const RecentGames = ({ Awins, Atops}) => {
                     <AverageBox>
                         <div className="rank">
                             <Tag>평균 등수</Tag>
-                            <Text>#3</Text>
+                            <Text>#{averageRank.toFixed(1)}</Text>
                         </div>
                         <div className="wins">
                             <Tag>1등 횟수</Tag>
@@ -29,26 +38,9 @@ const RecentGames = ({ Awins, Atops}) => {
                     </AverageBox>
 
                     <RankBox>
-                        <Box>1</Box>
-                        <Box>2</Box>
-                        <Box>3</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
-                        <Box>2</Box>
+                        {
+                            rankArr.map((ranking, i) => <Rank key={i} ranking={ranking}/>)
+                        }
                     </RankBox>
                 </SummaryBox>
                 <GraphBox xl={8}>그래프</GraphBox>
@@ -110,12 +102,17 @@ const RankBox = styled.ul`
 const Box = styled.li`
     width: 32px;
     height: 32px;
-    background: grey;
     margin: 2px;
     float: left;
     text-align: center;
     line-height: 32px;
     border-radius: 4px;
+    color : ${props => props.ranking >=1 && props.ranking<=4 ? '#ffffff' : 'grey' };
+    background: ${props => {
+        if(props.ranking === 1) return '#11b288'
+        else if(props.ranking >=2 && props.ranking<=4) return '#207ac7'
+        else return '#d6d6d6'
+    }}
 `;
 
 const Tag  = styled.div`
@@ -128,7 +125,6 @@ const Text = styled.div`
     font-size: 20px;
     font-weight: 700;
 `;
-
 
 const GraphBox = styled(Col)`
     height: 165px;

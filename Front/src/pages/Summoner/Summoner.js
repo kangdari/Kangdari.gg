@@ -15,8 +15,11 @@ const Summoner = ({ match }) => {
     const [summonerleagueInfo, setSummonerLeagueInfo] = useState([]); // TFT 리그, 티어 정보
     const [averageRank, setAverageRank] = useState(0);
     const [matchInfo, setMatchInfo] = useState(''); // TFT 전적 정보
+
+    // 20게임 평균 
     const [wins, setWins] = useState(0); // wins, top 수 
     const [tops, setTops] = useState(0); // wins, top 수 
+    const [rankArr, setRankArr] = useState([]);
 
     useEffect(() => {
         setLoading(true);
@@ -37,6 +40,8 @@ const Summoner = ({ match }) => {
                     setMatchInfo(fetchMatchInfo.data.matchInfo.matchInfo);
                     setTops(fetchMatchInfo.data.matchInfo.tops);
                     setWins(fetchMatchInfo.data.matchInfo.wins);
+                    setRankArr(fetchMatchInfo.data.matchInfo.rankArr);
+
                     setSummonerLeagueInfo(fetchLeagueInfo.data.leagueInfo[0]);
                     setAverageRank(fetchAverageRank.data.averageRank);
                     setSummonerInfo({
@@ -76,8 +81,7 @@ const Summoner = ({ match }) => {
                                 <SummonerProfile summonerInfo={summonerInfo}/>
                                 <ProfileMenu summonerInfo={summonerInfo} summonerleagueInfo={summonerleagueInfo}/>
                             </SummonerProfileContainer>
-                                <LeagueInfo summonerleagueInfo={summonerleagueInfo} averageRank={averageRank} Awins={wins} Atops={tops}/> 
-                                
+                            <LeagueInfo summonerleagueInfo={summonerleagueInfo} averageRank={averageRank} Awins={wins} Atops={tops} rankArr={rankArr}/> 
                         </>
 
 

@@ -42,7 +42,7 @@ router.get("/search?:summonerName", async (req, res) => {
 router.get("/match/rank?:puuid", async (req, res) => {
   const puuid = req.query.puuid;
   let total = 0;
-  const count = 10; // 평균 등수 경기 수 
+  const count = 2; // 평균 등수 경기 수 
 
   const getMatchList = axios.get(
     `https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?count=${count}&api_key=${api_key}`
@@ -79,10 +79,17 @@ router.get("/match/rank?:puuid", async (req, res) => {
 // 각 match의 정보 검색
 router.get("/match/info", async (req, res) => {
   const { puuid } = req.query;
+  const count = 10; // 평균 등수 경기 수 
+
+  let rankSum = 0; // 등수 총 합
+  let wins = 0; // 1등
+  let tops = 0; // top
+
   // matchList 얻어냄 (3개)
   const getMatchList = axios.get(
-    `https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?count=3&api_key=${api_key}`
+    `https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?count=${count}&api_key=${api_key}`
   );
+
   // matchInfo 각 match의 정보를 정리
   const getMatchInfo = async (matches) => {
     const matchInfo = [];
@@ -94,7 +101,14 @@ router.get("/match/info", async (req, res) => {
             `https://asia.api.riotgames.com/tft/match/v1/matches/${match_id}?api_key=${api_key}`
           )
           .then((res) => {
-            const { metadata, info } = res.data;
+            const { info } = res.data;
+
+            // 등수 총합
+            const rank = info.participants.find(user => user.puuid === puuid).placement;
+            rankSum += rank;
+
+            if(rank === 1) wins++; // 1등
+            else if(rank >= 2 && rank <= 4) tops++; // 2 ~ 4등 
 
             const {
               game_datetime,
@@ -110,18 +124,33 @@ router.get("/match/info", async (req, res) => {
               game_variation, // 은하계 모드
               participants, // 유저
             });
+
           });
       })
     );
-    return matchInfo;
+    return { 
+      matchInfo,
+      wins,
+      tops
+    }
+
+    // return matchInfo; 
   };
 
   return getMatchList.then(async (matchList) => {
     const matches = matchList.data;
-    await getMatchInfo(matches).then((matchInfo) =>
+    await getMatchInfo(matches).then((matchInfo) => 
       res.status(200).json({ matchInfo })
     );
   });
+
+  // return getMatchList.then(async (matchList) => {
+  //   const matches = matchList.data;
+  //   await getMatchInfo(matches).then((matchInfo) =>
+  //     res.status(200).json({ matchInfo })
+  //   );
+  // });
+
 });
 
 // 소환사의 리그 정보

@@ -5,8 +5,9 @@ import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
 
 // 
+import RecentGames from './RecentGames';
 
-const LeagueInfo = ({summonerleagueInfo, averageRank}) => {
+const LeagueInfo = ({summonerleagueInfo, averageRank, Awins, Atops}) => {
     const { tier, rank, leaguePoints, wins, losses } = summonerleagueInfo;
     const totalMatch = wins + losses;
     const winRate = totalMatch ? (wins/totalMatch*100).toFixed(1) : 0;
@@ -63,6 +64,7 @@ const LeagueInfo = ({summonerleagueInfo, averageRank}) => {
                     그래프...
                 </Col>
             </Row>
+            <RecentGames Awins={Awins} Atops={Atops}/>
         </LeagueInfoContainer>
     );
 };
@@ -71,6 +73,7 @@ export default LeagueInfo;
 
 const LeagueInfoContainer = styled(Container)`
     margin-top: 50px;
+    padding: 0;
 `;
 
 const TierBox = styled.div`
@@ -80,7 +83,6 @@ const TierBox = styled.div`
 const TierInfo = styled.div`
     display: flex;
     padding: 20px 5px 21px 15px;
-    /* background : #ffffff; */
 `;
 
 const TierIconBox = styled.div`

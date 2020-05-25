@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
+import Graph from './Graph';
 
 const Rank = ({ranking}) => {
 
@@ -43,7 +44,9 @@ const RecentGames = ({ Awins, Atops, rankArr}) => {
                         }
                     </RankBox>
                 </SummaryBox>
-                <GraphBox xl={8}>그래프</GraphBox>
+                <GraphBox xl={8}>
+                    <Graph rankArr={rankArr}/>
+                </GraphBox>
             </Row>
         </RecentGamesContainer>
     );
@@ -54,6 +57,7 @@ export default RecentGames;
 const RecentGamesContainer = styled.div`
     width: 100%;
     border: 1px solid #e6e6e6;
+    margin-top: 8px;
 `;
 
 const TitleBox = styled.div`
@@ -108,11 +112,7 @@ const Box = styled.li`
     line-height: 32px;
     border-radius: 4px;
     color : ${props => props.ranking >=1 && props.ranking<=4 ? '#ffffff' : 'grey' };
-    background: ${props => {
-        if(props.ranking === 1) return '#11b288'
-        else if(props.ranking >=2 && props.ranking<=4) return '#207ac7'
-        else return '#d6d6d6'
-    }}
+    background: ${props => props.theme.rankColor2[props.ranking-1]};
 `;
 
 const Tag  = styled.div`

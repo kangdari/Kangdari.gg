@@ -21,5 +21,6 @@ export default {
     yellowColor: '#F3CC57',
     blueColor: '#49B4FF',
     borderRadius: '5px',
-    tierColor: TIER_COLOR
+    tierColor: TIER_COLOR,
+    rankColor2 : ["#11b288", "#207ac7", "#207ac7", "#207ac7", "#d6d6d6", "#d6d6d6", "#d6d6d6", "#d6d6d6"],
 }

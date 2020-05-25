@@ -62,7 +62,8 @@ router.get("/match/rank?:puuid", async (req, res) => {
               (user) => user.puuid === puuid
             ).placement;
             total += rank;
-          });
+          })
+          .catch((err) => res.json({ err }));
       })
     );
     return total;
@@ -126,7 +127,8 @@ router.get("/match/info", async (req, res) => {
             game_variation, // 은하계 모드
             participants, // 유저
           });
-        });
+        })
+        .catch((err) => res.json({ err }));
     }
 
     return {

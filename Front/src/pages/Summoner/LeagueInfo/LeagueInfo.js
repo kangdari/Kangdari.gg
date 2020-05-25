@@ -52,7 +52,7 @@ const LeagueInfo = ({summonerleagueInfo, averageRank, Awins, Atops, rankArr}) =>
                                         <span>{totalMatch}</span>
                                     </Col>
                                     <Col xs={6} className="stat">
-                                        <span>평균 등수(10판)</span>
+                                        <span>평균 등수(api 수정 필요)</span>
                                         <span># {averageRank}</span>
                                     </Col>
 
@@ -77,7 +77,7 @@ const LeagueInfoContainer = styled(Container)`
 `;
 
 const TierBox = styled.div`
-    border: 1px solid grey;
+    border: 1px solid #e6e6e6;
 `;
 
 const TierInfo = styled.div`

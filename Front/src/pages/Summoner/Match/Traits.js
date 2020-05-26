@@ -6,9 +6,6 @@ const TraitItem = () => {
 
     const onToggle = () => {
         setVisible(!visible)
-
-        // const $tooltip = e.target.querySelector('._tooltip');
-        // if($tooltip) $tooltip.classList.toggle('visible');
     }
 
     return(
@@ -19,8 +16,8 @@ const TraitItem = () => {
     )
 }
 
-const Traits = () => {
 
+const Traits = () => {
 
 
     return (
@@ -54,7 +51,6 @@ const TraitsContainer = styled.div`
         justify-content: center;
 
         ._tooltip{
-            /* opacity: 1; */
             display: block;
             position: absolute;
             top: -40px;
@@ -71,7 +67,7 @@ const TraitsContainer = styled.div`
                 content: '';
                 position: absolute;
                 bottom: -5px;
-                left: 45%;
+                left: 42%;
                 width: 0;
                 height: 0;
                 border-left: 8px solid transparent;

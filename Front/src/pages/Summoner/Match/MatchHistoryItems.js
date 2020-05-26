@@ -5,13 +5,6 @@ import Traits from './Traits';
 
 const MatchHistoryItems = () => {
 
-    // const onToggle = (e) => {
-    //     // setVisible(!visible);
-    //     const $tooltip = document.querySelector('._tooltip');
-    //     $tooltip.classList.toggle('visible');
-    // }
-
-
   return (
     <MatchHistoryItemsBox>
       <MatchHistoryItem>
@@ -22,14 +15,16 @@ const MatchHistoryItems = () => {
           <div className="date">2일전</div>
           <div className="variation">니코의 세계</div>
         </Summary>
+       
         <Avatar>
-          <span className="level">4</span>
+          {/* <span className="level">4</span> */}
           {/* avatar_box 여러 개... */}
           <div className="avatar_box">
               {/* before, after를 이용해 색 삼각형 구현 */}
             <img src="/" alt="img" />
           </div>
         </Avatar>
+
         {/* 시너지 목록 props로 전달 */}
         <Traits />
 
@@ -150,10 +145,17 @@ const Summary = styled.div`
 `;
 
 const Avatar = styled.div`
-    padding: 0 35px;
+    display: none;
+    /* padding: 0 35px; */
+    
+    /* 992px 이상에서만 보이도록 */
+    @media (min-width: 992px){
+      display: block;
+      margin: 0 15px 0 0;
+    }
 
-    @media (min-widht: 992px){
-
+    .avatar_box{
+      
     }
 
 `;

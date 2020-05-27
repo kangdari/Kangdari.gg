@@ -28,6 +28,7 @@ const MatchHistoryItems = () => {
 
         {/* 시너지 목록 props로 전달 */}
         <Traits />
+        {/* Units 목록 props로 전달 */}
         <Units />
 
         <Participants>

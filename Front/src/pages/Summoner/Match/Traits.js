@@ -1,17 +1,25 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
-const TraitItem = () => {
-        const [visible, setVisible] = useState(false);
+import ToolTip from '../../../components/ToolTip';
 
-    const onToggle = () => {
-        setVisible(!visible)
+const TraitItem = () => {
+    const [visible, setVisible] = useState(false);
+
+    const hideToolTip = () => {
+        setVisible(false)
+    }
+    const showToolTip = () => {
+        setVisible(true)
     }
 
     return(
-        <div className="trait_box" onMouseEnter={onToggle} onMouseLeave={onToggle}>
+        // <div className="trait_box" onMouseEnter={onToggle} onMouseLeave={onToggle}>
+        <div className="trait_box" onMouseOver={showToolTip} onMouseLeave={hideToolTip}>
             <img src="/traits/trait_icon_starguardian.png" alt="trait" />
-            { visible ? <div className="_tooltip">총잡이</div> : ' '}
+            {/* { visible ? <span className="_tooltip">9 별수호자</span> : ' '} */}
+            { visible ? <ToolTip content="수호자" position="top" /> : ' '}
+
       </div>
     )
 }
@@ -57,36 +65,6 @@ const TraitsContainer = styled.div`
         position: relative;
         display: flex;
         justify-content: center;
-
-        ._tooltip{
-            display: block;
-            position: absolute;
-            top: -40px;
-            width: 100px;
-            background-color: #000000;
-            color: #fff;
-            padding: 5px 3px;
-            border-radius: 4px;
-            text-align: center;
-            transition: all 0.2s ease-in-out;
-
-            /* 삼각형 */
-            &:after{
-                content: '';
-                position: absolute;
-                bottom: -5px;
-                left: 42%;
-                width: 0;
-                height: 0;
-                border-left: 8px solid transparent;
-                border-right: 8px solid transparent;
-                border-top: 8px solid #000;
-            }
-
-            &.visible{
-                opacity: 1;
-            }
-        }
 
         &:before{
             content: "";

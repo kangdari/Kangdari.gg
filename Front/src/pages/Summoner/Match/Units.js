@@ -1,31 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+
+import ToolTip from '../../../components/ToolTip';
 
 // props로 star, champion, items 전달 받기
 const Unit = () => {
+    const [visible, setVisible] = useState(false);
+
+    const onToggle = () => {
+        setVisible(!visible);
+    }
 
     return (
         <UnitContainer className="unit">
             {/* 몇 성? */}
             <img src="/star/cost1_stars3.png" alt="star" />
             {/* props 값으로 코스트 전달하여 테두리색 변경 */}
-            <div className="champion">
+            <div className="champion" onMouseEnter={onToggle} onMouseLeave={onToggle}>
                 <img src="/champion/gangplank.png" alt="champion_img" />
+                { visible ? <ToolTip content="gangplank" position="top"/> : ' '}
             </div>
             {/* items 배열로 출력 */}
             <div className="items">
-                <img src="/items/04.png" alt="item" />
-                <img src="/items/04.png" alt="item" />
-                <img src="/items/04.png" alt="item" />
+                <Item />
+                <Item />
+                <Item />
             </div>
         </UnitContainer>
     )
 }
 
+const Item = () => {
+    const [visible, setVisible] = useState(false);
+
+    const onToggle = () => {
+        setVisible(!visible);
+    }
+    return (
+        <div style={{position: 'relative'}} onMouseEnter={onToggle} onMouseLeave={onToggle}>
+            <img src="/items/04.png" alt="item" />
+            { visible ? <ToolTip content="용" position="bottom"/> : ' '}
+        </div>
+    );
+};
+
 // 사용된 units 배열 전달 받기
 const Units = () => {
     return (
         <UnitsContainer>
+            <Unit />
+            <Unit />
+            <Unit />
             <Unit />
         </UnitsContainer>
     );
@@ -55,6 +80,9 @@ const UnitContainer = styled.div`
     }
 
     .champion{
+        position: relative;
+        display: flex;
+        flex-direction: column;
         height: 34px;
         border: 2px solid #000;
         border-radius: 4px;
@@ -69,6 +97,7 @@ const UnitContainer = styled.div`
     }
 
     .items{
+        display: flex;
         min-width: 34px;
 
         img{

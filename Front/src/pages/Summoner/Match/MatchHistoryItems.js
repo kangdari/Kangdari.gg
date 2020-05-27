@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from 'styled-components';
 
 import Traits from './Traits';
 import Units from './Units';
 import Participants from './Participants';
 
-const MatchHistoryItems = () => {
+import { FaAngleUp } from "react-icons/fa";
+import { FaAngleDown } from "react-icons/fa";
+
+const HisotryItem = () =>{
+  const [clicked, setClicked] = useState(false);
+  const onClick = (e) =>{
+    setClicked(!clicked);
+    // 선택한 화살표의 다음 matchDetail 컴포넌트를 찾아 visible 클래스 토글
+    const matchDetail = e.target.closest('div').parentNode;
+    matchDetail.nextElementSibling.classList.toggle('visible')
+  }
+
 
   return (
-    <MatchHistoryItemsBox>
+    <>
       <MatchHistoryItem>
         <Summary>
           <div className="rank">#1</div>
@@ -31,9 +42,26 @@ const MatchHistoryItems = () => {
         <Units />
         {/* Participants 배열을 props로 전달 */}
         <Participants />
-
-        <Func>></Func>
+        <Func onClick={onClick}>
+          { !clicked ? <FaAngleDown /> : <FaAngleUp /> }
+        </Func>
       </MatchHistoryItem>
+      <MatchDetailItem className="match_detail">
+        dd
+      </MatchDetailItem>
+    </>
+  )
+}
+
+const MatchHistoryItems = () => {
+
+  return (
+    <MatchHistoryItemsBox>
+      {/* 배열 반복 */}
+      <HisotryItem />
+      <HisotryItem />
+      <HisotryItem />
+      <HisotryItem />
     </MatchHistoryItemsBox>
   );
 };
@@ -41,15 +69,15 @@ const MatchHistoryItems = () => {
 export default MatchHistoryItems;
 
 const MatchHistoryItemsBox = styled.div`
-  margin-top: 5px;
-  background: #fff;
-  border-top: 1px solid #e6e6e6;
-  border-bottom: 1px solid #e6e6e6;
 `;
 
 const MatchHistoryItem = styled.div`
     /* 위치 기준 */
     position: relative;
+    margin-top: 5px;
+    background: #fff;
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
 
     display: flex;
     flex-direction: column;
@@ -60,7 +88,6 @@ const MatchHistoryItem = styled.div`
     }
 
 `;
-
 
 const Summary = styled.div`
     /* 992px 이하 가로 정렬 */
@@ -167,6 +194,33 @@ const Avatar = styled.div`
 `;
 
 const Func = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  cursor: pointer;
 
+  @media (min-width: 992px){
+    height: 100%;
+    /* props에 따라서 변경 */
+    background: grey;
+
+    svg{
+      color: #fff;
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
 `;
 
+const MatchDetailItem = styled.div`
+  display: none;
+
+  &.visible{
+    display: block;
+  }
+`;

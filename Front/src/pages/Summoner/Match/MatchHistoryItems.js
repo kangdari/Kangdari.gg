@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Traits from './Traits';
 import Units from './Units';
+import Participants from './Participants';
 
 const MatchHistoryItems = () => {
 
@@ -21,29 +22,17 @@ const MatchHistoryItems = () => {
         <Avatar>
           <span className="level">4</span>
           <div className="avatar_box">
-
             <img src="/avatar/avatar.png" alt="img" />
           </div>
         </Avatar>
-
         {/* 시너지 목록 props로 전달 */}
         <Traits />
         {/* Units 목록 props로 전달 */}
         <Units />
+        {/* Participants 배열을 props로 전달 */}
+        <Participants />
 
-        <Participants>
-          <ul>
-            {/* 8명 반복 */}
-            <li>
-              <div className="participant__avatar">
-                <div className="participant__avatar_img">
-                  <img alt="participant__avatar_img" />
-                </div>
-              </div>
-            </li>
-          </ul>
-        </Participants>
-        {/* <Func>></Func> */}
+        <Func>></Func>
       </MatchHistoryItem>
     </MatchHistoryItemsBox>
   );
@@ -52,11 +41,13 @@ const MatchHistoryItems = () => {
 export default MatchHistoryItems;
 
 const MatchHistoryItemsBox = styled.div`
-
+  margin-top: 5px;
+  background: #fff;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
 `;
 
 const MatchHistoryItem = styled.div`
-    margin-top: 5px;
     /* 위치 기준 */
     position: relative;
 
@@ -173,14 +164,6 @@ const Avatar = styled.div`
       }
     }
 
-`;
-
-const Participants = styled.div`
-    display: none;
-
-    @media (min-width: 1200px){
-        display: block;
-    }
 `;
 
 const Func = styled.div`

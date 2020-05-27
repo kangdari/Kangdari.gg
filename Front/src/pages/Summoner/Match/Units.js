@@ -114,8 +114,6 @@ const UnitContainer = styled.div`
                 height: 11px;
             }
         }
-
-
     }
 `;
 

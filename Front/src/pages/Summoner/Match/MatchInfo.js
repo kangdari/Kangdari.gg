@@ -19,6 +19,8 @@ const MatchInfo = () => {
                     <LinkItem to='/ㄴ' activeClassName="active">일반</LinkItem>
                 </LinkBox>
                 <MatchHistoryItems />
+                <MatchHistoryItems />
+                <MatchHistoryItems />
             </MatchHistoryBox>
         </MatchInfoContainer>
     );

@@ -9,7 +9,6 @@ const MatchInfo = () => {
     // summonerName
     const url = `/summoner/쪼해피롱`;
 
-
     return (
         <MatchInfoContainer>
             <MatchHistoryBox>

@@ -25,6 +25,9 @@ const Traits = () => {
           {/* 시너지 반복 출력 */}
             <TraitItem />
             <TraitItem />
+            <TraitItem />
+            <TraitItem />
+            <TraitItem />
         </TraitsContainer>
     );
 };
@@ -32,17 +35,22 @@ const Traits = () => {
 export default Traits;
 
 const TraitsContainer = styled.div`
-    padding: 0 35px;
     display: flex;
+    align-items: center;
+    width: 100%;
+    height: 33px;
+    margin: 0 0 0 43px;
 
-    @media (min-widht: 992px){
-
+    @media (min-width: 992px){
+        width: 140px;
+        height: 65px;
+        margin: 0 20px 0 0;
+        flex-wrap: wrap;
     }
 
     /* props로 시너지 색상 전달 */
     .trait_box{
-        margin-right: 3px;
-
+        margin: 5px 3px 5px 0;
         width: 24px;
         height: 14px;
         background: #ffb93b;

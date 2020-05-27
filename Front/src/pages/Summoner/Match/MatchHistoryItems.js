@@ -2,6 +2,7 @@ import React from "react";
 import styled from 'styled-components';
 
 import Traits from './Traits';
+import Units from './Units';
 
 const MatchHistoryItems = () => {
 
@@ -16,34 +17,19 @@ const MatchHistoryItems = () => {
           <div className="variation">니코의 세계</div>
         </Summary>
        
+        {/* img url, level props로 받아옴 */}
         <Avatar>
-          {/* <span className="level">4</span> */}
-          {/* avatar_box 여러 개... */}
+          <span className="level">4</span>
           <div className="avatar_box">
-              {/* before, after를 이용해 색 삼각형 구현 */}
-            <img src="/" alt="img" />
+
+            <img src="/avatar/avatar.png" alt="img" />
           </div>
         </Avatar>
 
         {/* 시너지 목록 props로 전달 */}
         <Traits />
+        <Units />
 
-
-        
-        <Units>
-          <div className="unit">
-            {/* 몇 성? */}
-            <img alt="stars" />
-            {/* props 값으로 코스트 전달하여 테두리색 변경 */}
-            <div className="champion">
-              <img alt="champion_img" />
-            </div>
-            {/* 아이템 bootstrap 토글 사용 */}
-            <ul className="items">
-              <img className="item" alt="item" />
-            </ul>
-          </div>
-        </Units>
         <Participants>
           <ul>
             {/* 8명 반복 */}
@@ -56,7 +42,7 @@ const MatchHistoryItems = () => {
             </li>
           </ul>
         </Participants>
-        <Func>></Func>
+        {/* <Func>></Func> */}
       </MatchHistoryItem>
     </MatchHistoryItemsBox>
   );
@@ -78,6 +64,7 @@ const MatchHistoryItem = styled.div`
 
     @media (min-width: 992px){
         flex-direction: row;
+        align-items: center;
     }
 
 `;
@@ -89,6 +76,7 @@ const Summary = styled.div`
     padding: 6px 35px 0;
 
     &:before{
+      /* props로 전달 */
         content: "#6";
         position: absolute;
         left: 0;
@@ -107,13 +95,13 @@ const Summary = styled.div`
             content: "";
 
         }
-
     }
 
     @media (min-width: 992px){
         /* 세로 정렬 */
         display: flex;
         flex-direction: column;
+        width: 130px;
         padding: 10px 10px 0 10px ;
         height: 100px;
     }
@@ -151,18 +139,38 @@ const Avatar = styled.div`
     /* 992px 이상에서만 보이도록 */
     @media (min-width: 992px){
       display: block;
+      position: relative;
       margin: 0 15px 0 0;
     }
 
-    .avatar_box{
-      
+    .level{
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 18px;
+      height: 18px; 
+      border: 1px solid #ca9372;
+      border-radius: 50%;
+      text-align:center;
+      line-height: 18px;
+      background: #000;
+      color: #ca9372;
+      font-size: 11px;
     }
 
-`;
+    .avatar_box{
+      width: 48px;
+      height: 48px;
+      /* 안보이는 부분 가리기 */
+      overflow: hidden; 
+      border-radius: 50%;
+      border: 2px solid #ca9372;
 
-
-const Units = styled.div`
-    padding: 0 35px;
+      img{
+        max-height: 48px;
+        margin-left: -12px;
+      }
+    }
 
 `;
 

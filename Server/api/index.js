@@ -110,7 +110,6 @@ router.get("/match/info", async (req, res) => {
           const rank = info.participants.find(user => user.puuid === puuid).placement;
           rankArr.push(rank);
 
-          console.log(info.participants.find(user => user.puuid === puuid).time_eliminated)
 
           if (rank === 1) wins++; // 1등
           else if (rank >= 2 && rank <= 4) tops++; // 2 ~ 4등 

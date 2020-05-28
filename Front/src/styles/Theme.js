@@ -22,5 +22,6 @@ export default {
     blueColor: '#49B4FF',
     borderRadius: '5px',
     tierColor: TIER_COLOR,
-    rankColor : ["#11b288", "#207ac7", "#207ac7", "#207ac7", "#d6d6d6", "#d6d6d6", "#d6d6d6", "#d6d6d6"],
+    rankColor : ["#11b288", "#207ac7", "#207ac7", "#207ac7", "#a0a0a0", "#a0a0a0", "#a0a0a0", "#a0a0a0"],
+    traitsColor : ['#ca9372', '#92b1bd', '#ffb93b']
 }

@@ -28,7 +28,7 @@ const ToolTipBox = styled.span`
 
     &.top{
         /* 위에 위치한 툴팁 위치*/
-        top: -40px;
+        top: -45px;
         left: 50%;
         transform: translateX(-50%);
         &:after{

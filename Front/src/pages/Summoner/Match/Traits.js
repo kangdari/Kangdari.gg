@@ -1,41 +1,53 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import ToolTip from '../../../components/ToolTip';
 
-const TraitItem = () => {
-    const [visible, setVisible] = useState(false);
+import { getTrait } from '../../../common/tratisUtil';
 
-    const hideToolTip = () => {
-        setVisible(false)
+const TraitItem = ({trait}) => {
+    const [visible, setVisible] = useState(false);
+    const [traitInfo, setTraitInfo] = useState([]);
+
+    const onToggle = () => {
+        setVisible(!visible)
     }
-    const showToolTip = () => {
-        setVisible(true)
-    }
+
+    useEffect( () => {
+        // style: 시너지 단계, name: 시너지 이름, num_units: 유닛 갯수
+        const { style, name, num_units } = trait;
+        // name값으로 한글 이름, 설명 찾기
+        const { trait_name, trait_description } =  getTrait(name);
+        setTraitInfo({
+            trait_name,
+            trait_description,
+            style,
+            num_units,
+            name: name.toLowerCase().replace(/set3_/, ''),
+        })
+    }, [trait])  
+
+    // 왜 총잡이, 공허 이미지가 안나오지?.. >> 수정 필요
+    const url = `http://d287nhi7bqyj2m.cloudfront.net/traits/${traitInfo.name}.png`;
 
     return(
-        // <div className="trait_box" onMouseEnter={onToggle} onMouseLeave={onToggle}>
-        <div className="trait_box" onMouseOver={showToolTip} onMouseLeave={hideToolTip}>
-            <img src="/traits/trait_icon_starguardian.png" alt="trait" />
-            {/* { visible ? <span className="_tooltip">9 별수호자</span> : ' '} */}
-            { visible ? <ToolTip content="수호자" position="top" /> : ' '}
-
-      </div>
+        <TraitBox style={traitInfo.style} onMouseEnter={onToggle} onMouseLeave={onToggle}>
+            <img src={url} alt={traitInfo.trait_name} />
+            { visible ? <ToolTip content={traitInfo.num_units + ' ' + traitInfo.trait_name} position="top" /> : ' '}
+        </TraitBox>
     )
 }
 
 
-const Traits = () => {
-
+const Traits = ({traits}) => {
+    // 시너지가 존재하는 경우만 필터하고 시너지 단계가 높은 순으로 정렬
+    traits = traits.filter(trait => trait.tier_current >= 1)
+    traits.sort((a, b) => b.style - a.style)
 
     return (
         <TraitsContainer>
           {/* 시너지 반복 출력 */}
-            <TraitItem />
-            <TraitItem />
-            <TraitItem />
-            <TraitItem />
-            <TraitItem />
+          {traits.map((trait, i) => <TraitItem trait={trait} key={i} />)}
         </TraitsContainer>
     );
 };
@@ -55,50 +67,50 @@ const TraitsContainer = styled.div`
         margin: 0 20px 0 0;
         flex-wrap: wrap;
     }
-
-    /* props로 시너지 색상 전달 */
-    .trait_box{
-        margin: 5px 3px 5px 0;
-        width: 24px;
-        height: 14px;
-        background: #ffb93b;
-        position: relative;
-        display: flex;
-        justify-content: center;
-
-        &:before{
-            content: "";
-            position: absolute;
-            top: -6px;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-bottom: 6px solid #ffb93b;
-        }
-
-        &:after{
-            content: "";
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 6px solid #ffb93b;
-        }
-
-        img{
-            width: 18px;
-            top: -1px;
-            /* png 파일 색상을 white로 변경 */
-            filter: brightness(0) invert(1); 
-            /* -webkit-filter: brightness(0) invert(1);         */
-            position: absolute;
-        }
-    }
 `;
 
+const TraitBox = styled.div`
+    margin: 5px 3px 5px 0;
+    width: 24px;
+    height: 14px;
+    /* background: #ffb93b; */
+    background: ${props => props.theme.traitsColor[props.style-1]};
+    position: relative;
+    display: flex;
+    justify-content: center;
+    
 
+    /* bronze, gold, silver , chromatic */
+    &:before{
+        content: "";
+        position: absolute;
+        top: -6px;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-bottom: 6px solid ${props => props.theme.traitsColor[props.style-1]};
+    }
+
+    &:after{
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-top: 6px solid ${props => props.theme.traitsColor[props.style-1]};
+    }
+
+    img{
+        width: 18px;
+        top: -1px;
+        /* png 파일 색상을 white로 변경 */
+        filter: brightness(0) invert(1); 
+        -webkit-filter: brightness(0) invert(1);        
+        position: absolute;
+    }
+`;

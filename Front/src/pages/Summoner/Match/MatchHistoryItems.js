@@ -62,7 +62,7 @@ const HisotryItem = ({participantInfo}) =>{
           </div>
         </Avatar>
         {/* 시너지 목록 props로 전달 */}
-        <Traits />
+        <Traits traits={traits}/>
         {/* Units 목록 props로 전달 */}
         <Units />
         {/* Participants 배열을 props로 전달 */}

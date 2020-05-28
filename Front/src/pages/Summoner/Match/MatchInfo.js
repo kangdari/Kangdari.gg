@@ -4,8 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import MatchHistoryItems from './MatchHistoryItems';
 
-
-const MatchInfo = () => {
+const MatchInfo = ({ matchInfo }) => {
     // summonerName
     const url = `/summoner/쪼해피롱`;
 
@@ -18,7 +17,7 @@ const MatchInfo = () => {
                     <LinkItem to='/ㄴ' activeClassName="active">랭크</LinkItem>
                     <LinkItem to='/ㄴ' activeClassName="active">일반</LinkItem>
                 </LinkBox>
-                <MatchHistoryItems />
+                <MatchHistoryItems matchInfo={matchInfo}/>
  
             </MatchHistoryBox>
         </MatchInfoContainer>

@@ -4,34 +4,59 @@ import styled from 'styled-components';
 import Traits from './Traits';
 import Units from './Units';
 import Participants from './Participants';
+import Tooltip from '../../../components/ToolTip';
 
+import { getCurrentUser, getGameTime, getDate } from '../../../common/gameUtil';
+import { getMode } from '../../../common/modeUtil';
+ 
 import { FaAngleUp } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
+import { FaQuestionCircle } from "react-icons/fa";
 
-const HisotryItem = () =>{
-  const [clicked, setClicked] = useState(false);
+const HisotryItem = ({participantInfo}) =>{
+  const [clicked, setClicked] = useState(false); // MatchDetailItem 렌더링 여부 
+  const [visible, setVisible] = useState(false); // Tooltip 렌더링 여부
   const onClick = (e) =>{
     setClicked(!clicked);
     // 선택한 화살표의 다음 matchDetail 컴포넌트를 찾아 visible 클래스 토글
     const matchDetail = e.target.closest('div').parentNode;
     matchDetail.nextElementSibling.classList.toggle('visible')
   }
+  const onToggle = () => {
+    setVisible(!visible);
+  }
+
+  const { game_datetime, game_variation, puuid ,participants } =  participantInfo;
+  const user = getCurrentUser(participants, puuid); // 검색한 유저의 정보
+  const { time_eliminated, placement, traits, units, level } = user;
+  const { minute, second } = getGameTime(time_eliminated); // 매치 플레이 시간 계산
+  const date = getDate(game_datetime); // 매치 날짜 계산
+  const { mode_name, mode_description } = getMode(game_variation); // 게임 모드 
 
 
   return (
     <>
       <MatchHistoryItem>
-        <Summary>
-          <div className="rank">#1</div>
+        {/* placement props를 전달해 순위 별 배경, 글자 색 변경 */}
+        <Summary placement={placement}>
+          <div className="rank">#{placement}</div>
           <div className="game_mode">랭크</div>
-          <div className="length">16:00</div>
-          <div className="date">2일전</div>
-          <div className="variation">니코의 세계</div>
+          <div className="length">{minute}:{second}</div>
+          <div className="date">{date}</div>
+          <div className="variation">
+            {mode_name}
+            {mode_description ? (
+              <div className="tooltip_box" onMouseEnter={onToggle} onMouseLeave={onToggle}>
+              <FaQuestionCircle /> 
+              { visible ? <Tooltip content={mode_description} position="top" /> : ''}
+            </div>
+            ) : '' }
+          </div>
         </Summary>
        
         {/* img url, level props로 받아옴 */}
         <Avatar>
-          <span className="level">4</span>
+          <span className="level">{level}</span>
           <div className="avatar_box">
             <img src="/avatar/avatar.png" alt="img" />
           </div>
@@ -53,15 +78,12 @@ const HisotryItem = () =>{
   )
 }
 
-const MatchHistoryItems = () => {
+const MatchHistoryItems = ({matchInfo}) => {
 
   return (
     <MatchHistoryItemsBox>
       {/* 배열 반복 */}
-      <HisotryItem />
-      <HisotryItem />
-      <HisotryItem />
-      <HisotryItem />
+      { matchInfo.map((participant, i) => <HisotryItem key={i} participantInfo={participant}/>)}
     </MatchHistoryItemsBox>
   );
 };
@@ -96,18 +118,18 @@ const Summary = styled.div`
 
     &:before{
       /* props로 전달 */
-        content: "#6";
+        content: "${props => `#${props.placement}`}";
         position: absolute;
         left: 0;
         top: 0;
         width: 32px;
         height: 100%;
-        background: #a0a0a0;
+        background: ${props => props.theme.rankColor[props.placement-1]};
+        color: #fff;
         display: flex;
         justify-content: center;
         align-items: center;
         font-weight: 700;
-        color: #fff;
 
         @media (min-width: 992px){
             width: 8px;
@@ -132,23 +154,32 @@ const Summary = styled.div`
             display: block;
             font-size: 16px;
             font-weight: 700;
-            color: #a0a0a0;
+            color: ${props => props.theme.rankColor[props.placement-1]};
             margin: 0 10px;
         }
         
     }
     .game_mode, .length, .date, .variation{
+        display: flex;
         color: grey;
         font-size: 12px;
         margin: 0 10px;
 
         @media (min-width: 992px){
             margin: 2.5px 10px;
-
         }
     }
-
-
+    
+    .tooltip_box{ 
+      width: 12px;
+      height: 12px;
+      display: flex;
+      position: relative;
+      
+      svg{
+        margin-left: 2px;
+      }
+    }
 `;
 
 const Avatar = styled.div`

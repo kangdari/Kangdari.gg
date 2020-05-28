@@ -19,7 +19,7 @@ router.get("/search?:summonerName", async (req, res) => {
     .catch((err) => res.json({ err }));
 
   const {
-    accountId,
+    // accountId,
     id,
     name,
     puuid,
@@ -28,7 +28,7 @@ router.get("/search?:summonerName", async (req, res) => {
     revisionDate,
   } = summonerInfo[0];
   res.json({
-    accountId,
+    // accountId,
     id,
     name,
     puuid,
@@ -110,12 +110,14 @@ router.get("/match/info", async (req, res) => {
           const rank = info.participants.find(user => user.puuid === puuid).placement;
           rankArr.push(rank);
 
+          console.log(info.participants.find(user => user.puuid === puuid).time_eliminated)
+
           if (rank === 1) wins++; // 1등
           else if (rank >= 2 && rank <= 4) tops++; // 2 ~ 4등 
 
           const {
             game_datetime,
-            game_length,
+            // game_length,
             game_variation,
             participants,
           } = info;
@@ -123,7 +125,7 @@ router.get("/match/info", async (req, res) => {
           matchInfo.push({
             puuid,
             game_datetime, // 게임 날짜
-            game_length, // 게임 시간
+            // game_length, // 게임 시간
             game_variation, // 은하계 모드
             participants, // 유저
           });

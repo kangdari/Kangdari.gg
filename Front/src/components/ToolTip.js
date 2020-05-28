@@ -14,7 +14,7 @@ export default ToolTip;
 const ToolTipBox = styled.span`
     position: absolute;
     min-width: 20px;
-    max-width: 200px;
+    max-width: 500px;
     background-color: #000000;
     color: #fff;
     padding: 8px 7px;
@@ -24,10 +24,11 @@ const ToolTipBox = styled.span`
     /* 줄바꿈방지 */
     white-space:nowrap; 
 
+    z-index : 100;
 
-    /* 위에 위치한 툴팁 */
     &.top{
-        top: -50px;
+        /* 위에 위치한 툴팁 위치*/
+        top: -40px;
         left: 50%;
         transform: translateX(-50%);
         &:after{
@@ -45,8 +46,8 @@ const ToolTipBox = styled.span`
         }
     }
 
-    /* 아래 위치한 툴팁 */
     &.bottom{
+        /* 아래 위치한 툴팁 위치 */
         top: 20px;
         left: 50%;
         transform: translateX(-50%);

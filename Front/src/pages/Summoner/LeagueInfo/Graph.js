@@ -27,11 +27,11 @@ const Graph = ({ rankArr }) => {
         labels: ['#1', '#2', '#3', '#4', '#5', '#6', '#7' , '#8'],
         datasets: [
           {
-            backgroundColor: Theme["rankColor2"],
-            borderColor: Theme["rankColor2"],
+            backgroundColor: Theme["rankColor"],
+            borderColor: Theme["rankColor"],
             borderWidth: 1,
-            hoverBackgroundColor: Theme["rankColor2"],
-            hoverBorderColor: Theme["rankColor2"],
+            hoverBackgroundColor: Theme["rankColor"],
+            hoverBorderColor: Theme["rankColor"],
             data: calculatedArr,
           }
         ]

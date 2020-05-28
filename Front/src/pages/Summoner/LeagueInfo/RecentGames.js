@@ -112,7 +112,7 @@ const Box = styled.li`
     line-height: 32px;
     border-radius: 4px;
     color : ${props => props.ranking >=1 && props.ranking<=4 ? '#ffffff' : 'grey' };
-    background: ${props => props.theme.rankColor2[props.ranking-1]};
+    background: ${props => props.theme.rankColor[props.ranking-1]};
 `;
 
 const Tag  = styled.div`

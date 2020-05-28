@@ -11,104 +11,104 @@ import LeagueInfo from './LeagueInfo/LeagueInfo';
 import MatchInfo from './Match/MatchInfo';
 
 const Summoner = ({ match }) => {
-    // const [loading, setLoading] = useState(false);
-    // const [summonerInfo, setSummonerInfo] = useState(''); // 소환사 정보( 이름, 아이콘ID, 레벨 )
-    // const [summonerleagueInfo, setSummonerLeagueInfo] = useState([]); // TFT 리그, 티어 정보
-    // const [averageRank, setAverageRank] = useState(0);
-    // const [matchInfo, setMatchInfo] = useState(''); // TFT 전적 정보
+    const [loading, setLoading] = useState(false);
+    const [summonerInfo, setSummonerInfo] = useState(''); // 소환사 정보( 이름, 아이콘ID, 레벨 )
+    const [summonerleagueInfo, setSummonerLeagueInfo] = useState([]); // TFT 리그, 티어 정보
+    const [averageRank, setAverageRank] = useState(0);
+    const [matchInfo, setMatchInfo] = useState(''); // TFT 전적 정보
 
-    // // 20게임 평균 
-    // const [wins, setWins] = useState(0); // wins, top 수 
-    // const [tops, setTops] = useState(0); // wins, top 수 
-    // const [rankArr, setRankArr] = useState([]);
+    // 20게임 평균 
+    const [wins, setWins] = useState(0); // wins, top 수 
+    const [tops, setTops] = useState(0); // wins, top 수 
+    const [rankArr, setRankArr] = useState([]);
 
-    // useEffect(() => {
-    //     setLoading(true);
-    //     const { summonerName } = match.params;
+    useEffect(() => {
+        setLoading(true);
+        const { summonerName } = match.params;
 
-    //     // 각 match의 정보 검색
-    //     getSummonerInfo(summonerName).then(async res => {
-    //         const { id, puuid, summonerLevel, profileIconId, revisionDate, name } = res.data;
+        // 각 match의 정보 검색
+        getSummonerInfo(summonerName).then(async res => {
+            const { id, puuid, summonerLevel, profileIconId, revisionDate, name } = res.data;
 
-    //         if(!puuid){
-    //             setSummonerInfo('');
-    //             setLoading(false);
-    //         }
-    //         else if(puuid){
-    //             Promise.all([
-    //                 getMatchInfo(puuid), getSummonerLeagueInfo(id), getAverageRank(puuid) 
-    //             ]).then(([fetchMatchInfo, fetchLeagueInfo, fetchAverageRank]) => {
-    //                 setMatchInfo(fetchMatchInfo.data.matchInfo.matchInfo);
-    //                 setTops(fetchMatchInfo.data.matchInfo.tops);
-    //                 setWins(fetchMatchInfo.data.matchInfo.wins);
-    //                 setRankArr(fetchMatchInfo.data.matchInfo.rankArr);
+            if(!puuid){
+                setSummonerInfo('');
+                setLoading(false);
+            }
+            else if(puuid){
+                Promise.all([
+                    getMatchInfo(puuid), getSummonerLeagueInfo(id), getAverageRank(puuid) 
+                ]).then(([fetchMatchInfo, fetchLeagueInfo, fetchAverageRank]) => {
+                    setMatchInfo(fetchMatchInfo.data.matchInfo.matchInfo);
+                    setTops(fetchMatchInfo.data.matchInfo.tops);
+                    setWins(fetchMatchInfo.data.matchInfo.wins);
+                    setRankArr(fetchMatchInfo.data.matchInfo.rankArr);
 
-    //                 setSummonerLeagueInfo(fetchLeagueInfo.data.leagueInfo[0]);
-    //                 setAverageRank(fetchAverageRank.data.averageRank);
-    //                 setSummonerInfo({
-    //                     name,
-    //                     profileIconId,
-    //                     revisionDate,
-    //                     summonerLevel
-    //                 });
-    //                 setLoading(false);
-    //             })
-    //         }
-    //     })
+                    setSummonerLeagueInfo(fetchLeagueInfo.data.leagueInfo[0]);
+                    setAverageRank(fetchAverageRank.data.averageRank);
+                    setSummonerInfo({
+                        name,
+                        profileIconId,
+                        revisionDate,
+                        summonerLevel
+                    });
+                    setLoading(false);
+                })
+            }
+        })
 
-    // }, [match.params]);
+    }, [match.params]);
 
-    // if(loading){
+    if(loading){
         
-    //     return(
-    //         <>
-    //             <Header />
-    //             <LoadingBox>
-    //                 <CircularProgress />
-    //             </LoadingBox>
-    //         </>
-    //     )
-    // }
-
-    // return (
-    //     <>
-    //         <Header />
-    //         <Container>
-    //             {/* Summoner 검색 결과 */}
-    //             {
-    //                 summonerInfo ? (
-    //                     <>
-    //                         <SummonerProfileContainer>
-    //                             <SummonerProfile summonerInfo={summonerInfo}/>
-    //                             <ProfileMenu summonerInfo={summonerInfo} summonerleagueInfo={summonerleagueInfo}/>
-    //                         </SummonerProfileContainer>
-    //                         <LeagueInfo summonerleagueInfo={summonerleagueInfo} averageRank={averageRank} Awins={wins} Atops={tops} rankArr={rankArr}/> 
-    //                         {/* match info */}
-    //                         <MatchInfo/>
-    //                     </>
-
-    //                 ) : (
-    //                     <SearchNotFound>
-    //                         <img src="/404.jpg" alt="404_img" />
-    //                         <SearchNotFoundText>검색 결과가 없습니다.</SearchNotFoundText>
-    //                     </SearchNotFound>
-    //                 )
-    //             }
-
-    //         </Container>
-    //     </>
-    // );
-
+        return(
+            <>
+                <Header />
+                <LoadingBox>
+                    <CircularProgress />
+                </LoadingBox>
+            </>
+        )
+    }
 
     return (
         <>
             <Header />
-
             <Container>
-                <MatchInfo />
+                {/* Summoner 검색 결과 */}
+                {
+                    summonerInfo ? (
+                        <>
+                            <SummonerProfileContainer>
+                                <SummonerProfile summonerInfo={summonerInfo}/>
+                                <ProfileMenu summonerInfo={summonerInfo} summonerleagueInfo={summonerleagueInfo}/>
+                            </SummonerProfileContainer>
+                            <LeagueInfo summonerleagueInfo={summonerleagueInfo} averageRank={averageRank} Awins={wins} Atops={tops} rankArr={rankArr}/> 
+                            <MatchInfo matchInfo={matchInfo}/>
+                        </>
+
+                    ) : (
+                        <SearchNotFound>
+                            <img src="/404.jpg" alt="404_img" />
+                            <SearchNotFoundText>검색 결과가 없습니다.</SearchNotFoundText>
+                        </SearchNotFound>
+                    )
+                }
+
             </Container>
         </>
-    )
+    );
+
+
+    // design test 용 
+    // return (
+    //     <>
+    //         <Header />
+
+    //         <Container>
+    //             <MatchInfo />
+    //         </Container>
+    //     </>
+    // )
 
 };
 

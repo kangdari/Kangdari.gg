@@ -1,0 +1,272 @@
+[
+  {
+    "id": 1,
+    "kr_name": "B.F. 대검",
+    "name": "B.F. Sword"
+  },
+  {
+    "id": 2,
+    "kr_name": "곡궁",
+    "name": "Recurve Bow"
+  },
+  {
+    "id": 3,
+    "kr_name": "쓸데없은 큰 지팡이",
+    "name": "Needlessly Large Rod"
+  },
+  {
+    "id": 4,
+    "kr_name": "여신의 눈물",
+    "name": "Tear of the Goddess"
+  },
+  {
+    "id": 5,
+    "kr_name": "쇠사슬 조끼",
+    "name": "Chain Vest"
+  },
+  {
+    "id": 6,
+    "kr_name": "음전자의 망토",
+    "name": "Negatron Cloak"
+  },
+  {
+    "id": 7,
+    "kr_name": "거인의 허리띠",
+    "name": "Giant's Belt"
+  },
+  {
+    "id": 8,
+    "kr_name": "뒤집개",
+    "name": "Spatula"
+  },
+  {
+    "id": 9,
+    "kr_name": "연습용 장갑",
+    "name": "Sparring Gloves"
+  },
+  {
+    "id": 11,
+    "kr_name": "죽음의 검",
+    "name": "Deathblade"
+  },
+  {
+    "id": 12,
+    "kr_name": "거인 학살자",
+    "name": "Giant Slayer"
+  },
+  {
+    "id": 13,
+    "kr_name": "마법공학 총검",
+    "name": "Hextech Gunblade"
+  },
+  {
+    "id": 14,
+    "kr_name": "쇼진의 창",
+    "name": "Spear of Shojin"
+  },
+  {
+    "id": 15,
+    "kr_name": "수호 천사",
+    "name": "Guardian Angel"
+  },
+  {
+    "id": 16,
+    "kr_name": "피바라기",
+    "name": "Bloodthirster"
+  },
+  {
+    "id": 17,
+    "kr_name": "지크의 정렬",
+    "name": "Zeke's Herald"
+  },
+  {
+    "id": 18,
+    "kr_name": "몰락한 왕의 검",
+    "name": "Blade of the Ruined King"
+  },
+  {
+    "id": 19,
+    "kr_name": "무한의 대검",
+    "name": "Infinity Edge"
+  },
+  {
+    "id": 22,
+    "kr_name": "고속 연사포",
+    "name": "Rapid Firecannon"
+  },
+  {
+    "id": 23,
+    "kr_name": "구인수의 격노검",
+    "name": "Guinsoo's Rageblade"
+  },
+  {
+    "id": 24,
+    "kr_name": "스태틱의 단검",
+    "name": "Statikk Shiv"
+  },
+  {
+    "id": 25,
+    "kr_name": "거인의 결의",
+    "name": "Titan's Resolve"
+  },
+  {
+    "id": 26,
+    "kr_name": "루난의 허리케인",
+    "name": "Runaan's Hurricane"
+  },
+  {
+    "id": 27,
+    "kr_name": "즈롯 차원문",
+    "name": "Zz'Rot Portal"
+  },
+  {
+    "id": 28,
+    "kr_name": "잠입자의 발톱",
+    "name": "Infiltrator's Talons"
+  },
+  {
+    "id": 29,
+    "kr_name": "최후의 속삭임",
+    "name": "Last Whisper"
+  },
+  {
+    "id": 33,
+    "kr_name": "라바돈의 죽음모자",
+    "name": "Rabadon's Deathcap"
+  },
+  {
+    "id": 34,
+    "kr_name": "루덴의 메아리",
+    "name": "Luden's Echo"
+  },
+  {
+    "id": 35,
+    "kr_name": "강철의 솔라리 펜던트",
+    "name": "Locket of the Iron Solari"
+  },
+  {
+    "id": 36,
+    "kr_name": "이온 충격기",
+    "name": "Ionic Spark"
+  },
+  {
+    "id": 37,
+    "kr_name": "모렐로노미콘",
+    "name": "Morellonomicon"
+  },
+  {
+    "id": 38,
+    "kr_name": "폭파광의 화약",
+    "name": "Demolitionist's Charge"
+  },
+  {
+    "id": 39,
+    "kr_name": "보석 건틀릿",
+    "name": "Jeweled Gauntlet"
+  },
+  {
+    "id": 44,
+    "kr_name": "대천사의 포옹",
+    "name": "Seraph's Embrace"
+  },
+  {
+    "id": 45,
+    "kr_name": "얼어붙은 심장",
+    "name": "Frozen Heart"
+  },
+  {
+    "id": 46,
+    "kr_name": "호의의 성배",
+    "name": "Chalice of Favor"
+  },
+  {
+    "id": 47,
+    "kr_name": "구원",
+    "name": "Redemption"
+  },
+  {
+    "id": 48,
+    "kr_name": "별 수호자의 부적",
+    "name": "Star Guardian's Charm"
+  },
+  {
+    "id": 49,
+    "kr_name": "정의의 손길",
+    "name": "Hand Of Justice"
+  },
+  {
+    "id": 55,
+    "kr_name": "덤불 조끼",
+    "name": "Bramble Vest"
+  },
+  {
+    "id": 56,
+    "kr_name": "파쇄검",
+    "name": "Sword Breaker"
+  },
+  {
+    "id": 57,
+    "kr_name": "붉은 덩굴정령",
+    "name": "Red Buff"
+  },
+  {
+    "id": 58,
+    "kr_name": "반군의 메달",
+    "name": "Rebel Medal"
+  },
+  {
+    "id": 59,
+    "kr_name": "침묵의 장막",
+    "name": "Shroud of Stillness"
+  },
+  {
+    "id": 66,
+    "kr_name": "용의 발톱",
+    "name": "Dragon's Claw"
+  },
+  {
+    "id": 67,
+    "kr_name": "서풍",
+    "name": "Zephyr"
+  },
+  {
+    "id": 68,
+    "kr_name": "천상의 구",
+    "name": "Celestial Orb"
+  },
+  {
+    "id": 69,
+    "kr_name": "수은",
+    "name": "Quicksilver"
+  },
+  {
+    "id": 77,
+    "kr_name": "워모그의 갑옷",
+    "name": "Warmog's Armor"
+  },
+  {
+    "id": 78,
+    "kr_name": "수호자의 흉갑",
+    "name": "Protector's Chestguard"
+  },
+  {
+    "id": 79,
+    "kr_name": "덫 발톱",
+    "name": "Trap Claw"
+  },
+  {
+    "id": 88,
+    "kr_name": "대자연의 힘",
+    "name": "Force of Nature"
+  },
+  {
+    "id": 89,
+    "kr_name": "암흑의 별 심장",
+    "name": "Dark Star's Heart"
+  },
+  {
+    "id": 99,
+    "kr_name": "도적의 장갑",
+    "name": "Thief's Gloves"
+  }
+]

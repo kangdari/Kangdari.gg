@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import ToolTip from '../../../components/ToolTip';
 
 import { getChampionInfo } from '../../../common/championUtil';
+import { getItemName } from '../../../common/itemUtils';
+import { cloud_front } from '../../../common/config';
 
 // props로 star, champion, items 전달 받기
 const Unit = ({unit}) => {
@@ -14,39 +16,37 @@ const Unit = ({unit}) => {
     }
     // items 아이템 배열, rarity(0~4) => 가격, tier 몇 성?  
     const { character_id, items, rarity, tier } = unit;
-
     // 챔피언 한글 이름 가져오기
-    const { kr_name, img_name }  = getChampionInfo(character_id)
+    const { kr_name, img_name }  = getChampionInfo(character_id);
 
     return (
         <UnitContainer className="unit" rarity={rarity}> 
             {/* 몇 성? */}
-            <img src="/star/cost1_stars3.png" alt="star" />
+            <img src={`${cloud_front}/star/cost${rarity+1}_stars${tier}.png`} alt="star" />
             {/* props 값으로 코스트 전달하여 테두리색 변경 */}
             <div className="champion" onMouseEnter={onToggle} onMouseLeave={onToggle}>
-                <img src={`http://d287nhi7bqyj2m.cloudfront.net/champion/${img_name}.png`} alt="champion_img" />
+                <img src={`${cloud_front}/champion/${img_name}.png`} alt="champion_img" />
                 { visible ? <ToolTip content={kr_name} position="top"/> : ' '}
             </div>
             {/* items 배열로 출력 */}
             <div className="items">
-                <Item />
-                <Item />
-                <Item />
+                { items.map((item, i) => <Item item={item} key={i}/>)}
             </div>
         </UnitContainer>
     )
 }
 
-const Item = () => {
+const Item = ({ item }) => {
     const [visible, setVisible] = useState(false);
+    const kr_item_name = getItemName(item);
 
     const onToggle = () => {
         setVisible(!visible);
     }
     return (
         <div style={{position: 'relative'}} onMouseEnter={onToggle} onMouseLeave={onToggle}>
-            <img src="/items/04.png" alt="item" />
-            { visible ? <ToolTip content="용" position="bottom"/> : ' '}
+            <img src={`${cloud_front}/items/${item}.png`} alt={item} />
+            { visible ? <ToolTip content={kr_item_name} position="bottom"/> : ' '}
         </div>
     );
 };
@@ -103,6 +103,7 @@ const UnitContainer = styled.div`
 
     .items{
         display: flex;
+        justify-content: center;
         min-width: 34px;
 
         img{

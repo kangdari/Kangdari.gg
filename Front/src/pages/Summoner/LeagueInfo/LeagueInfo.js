@@ -64,7 +64,8 @@ const LeagueInfo = ({summonerleagueInfo, averageRank, Awins, Atops, rankArr}) =>
                     그래프...
                 </Col>
             </Row>
-            <RecentGames Awins={Awins} Atops={Atops} rankArr={rankArr}/>
+            {/* ex) 인천 검색 시 tft 전적이 없음  */}
+            { rankArr.length !== 0 ? <RecentGames Awins={Awins} Atops={Atops} rankArr={rankArr}/> : '' } 
         </LeagueInfoContainer>
     );
 };

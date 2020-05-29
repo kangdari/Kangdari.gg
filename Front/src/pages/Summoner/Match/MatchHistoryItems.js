@@ -64,7 +64,7 @@ const HisotryItem = ({participantInfo}) =>{
         {/* 시너지 목록 props로 전달 */}
         <Traits traits={traits}/>
         {/* Units 목록 props로 전달 */}
-        <Units />
+        <Units units={units}/>
         {/* Participants 배열을 props로 전달 */}
         <Participants />
         <Func onClick={onClick}>

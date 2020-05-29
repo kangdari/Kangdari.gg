@@ -27,7 +27,6 @@ const TraitItem = ({trait}) => {
         })
     }, [trait])  
 
-    // 왜 총잡이, 공허 이미지가 안나오지?.. >> 수정 필요
     const url = `http://d287nhi7bqyj2m.cloudfront.net/traits/${traitInfo.name}.png`;
 
     return(

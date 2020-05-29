@@ -20,7 +20,7 @@ const Summoner = ({ match }) => {
     // 20게임 평균 
     const [wins, setWins] = useState(0); // wins, top 수 
     const [tops, setTops] = useState(0); // wins, top 수 
-    const [rankArr, setRankArr] = useState([]);
+    const [rankArr, setRankArr] = useState([]); // 검색한 match 수 등수 배열
 
     useEffect(() => {
         setLoading(true);
@@ -83,9 +83,8 @@ const Summoner = ({ match }) => {
                                 <ProfileMenu summonerInfo={summonerInfo} summonerleagueInfo={summonerleagueInfo}/>
                             </SummonerProfileContainer>
                             <LeagueInfo summonerleagueInfo={summonerleagueInfo} averageRank={averageRank} Awins={wins} Atops={tops} rankArr={rankArr}/> 
-                            <MatchInfo matchInfo={matchInfo}/>
+                            { matchInfo.length !== 0 ? <MatchInfo matchInfo={matchInfo}/> : ''}
                         </>
-
                     ) : (
                         <SearchNotFound>
                             <img src="/404.jpg" alt="404_img" />

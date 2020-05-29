@@ -80,7 +80,7 @@ router.get("/match/rank?:puuid", async (req, res) => {
 // 각 match의 정보 검색
 router.get("/match/info", async (req, res) => {
   const { puuid } = req.query;
-  const count = 20; // 평균 등수 경기 수 
+  const count = 1; // 평균 등수 경기 수 
 
   let wins = 0; // 1등
   let tops = 0; // top

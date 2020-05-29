@@ -3,22 +3,29 @@ import styled from 'styled-components';
 
 import ToolTip from '../../../components/ToolTip';
 
+import { getChampionInfo } from '../../../common/championUtil';
+
 // props로 star, champion, items 전달 받기
-const Unit = () => {
+const Unit = ({unit}) => {
     const [visible, setVisible] = useState(false);
 
     const onToggle = () => {
         setVisible(!visible);
     }
+    // items 아이템 배열, rarity(0~4) => 가격, tier 몇 성?  
+    const { character_id, items, rarity, tier } = unit;
+
+    // 챔피언 한글 이름 가져오기
+    const { kr_name, img_name }  = getChampionInfo(character_id)
 
     return (
-        <UnitContainer className="unit">
+        <UnitContainer className="unit" rarity={rarity}> 
             {/* 몇 성? */}
             <img src="/star/cost1_stars3.png" alt="star" />
             {/* props 값으로 코스트 전달하여 테두리색 변경 */}
             <div className="champion" onMouseEnter={onToggle} onMouseLeave={onToggle}>
-                <img src="/champion/gangplank.png" alt="champion_img" />
-                { visible ? <ToolTip content="gangplank" position="top"/> : ' '}
+                <img src={`http://d287nhi7bqyj2m.cloudfront.net/champion/${img_name}.png`} alt="champion_img" />
+                { visible ? <ToolTip content={kr_name} position="top"/> : ' '}
             </div>
             {/* items 배열로 출력 */}
             <div className="items">
@@ -45,13 +52,10 @@ const Item = () => {
 };
 
 // 사용된 units 배열 전달 받기
-const Units = () => {
+const Units = ({ units }) => {
     return (
         <UnitsContainer>
-            <Unit />
-            <Unit />
-            <Unit />
-            <Unit />
+            { units.map((unit, i) => <Unit key={i} unit={unit}/>)}
         </UnitsContainer>
     );
 };
@@ -84,7 +88,8 @@ const UnitContainer = styled.div`
         display: flex;
         flex-direction: column;
         height: 34px;
-        border: 2px solid #000;
+        /* rarity(cost)에 따라 테두리 색상 결정 */
+        border: 2px solid ${props => props.theme.costColr[props.rarity]};
         border-radius: 4px;
 
         img{

@@ -33,5 +33,34 @@ export const getDate = (datetime) => {
     }else{
         return `${time}시간 전`;
     }
-    
+}
+
+export const getRound = (round) => {
+  let r;
+  let remain = (round-4) % 7 === 0 ? 7 : (round-4) % 7; 
+  // 첫 크립 라운드 4 빼기
+  if(round >= 0 && round <= 4){
+    r = 1
+  }else if(round >= 5 && round <= 11){
+    r = 2;
+  }else if(round >= 12 && round <= 18){
+    r = 3;
+  }else if(round >= 19 && round <= 25){
+    r = 4;
+  }else if(round >= 26 && round <= 32){
+    r = 5;
+  }else if(round >= 33 && round <= 39){
+    r = 6;
+  }else if(round >= 40 && round <= 46){
+    r = 7;
+    remain = (round-4) % 7 === 0 ? 7 : (round-4) % 7; 
+  }else if(round >= 47 && round <= 53){
+    r = 8;
+  }
+
+  return({
+    r,
+    remain
+  })
+
 }

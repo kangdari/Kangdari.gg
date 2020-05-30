@@ -5,6 +5,7 @@ import Traits from './Traits';
 import Units from './Units';
 import Participants from './Participants';
 import Tooltip from '../../../components/ToolTip';
+import MatchDetailItems  from './MatchDetailItems/MatchDetailItems';
 
 import { getCurrentUser, getGameTime, getDate } from '../../../common/gameUtil';
 import { getMode } from '../../../common/modeUtil';
@@ -19,8 +20,8 @@ const HisotryItem = ({participantInfo}) =>{
   const onClick = (e) =>{
     setClicked(!clicked);
     // 선택한 화살표의 다음 matchDetail 컴포넌트를 찾아 visible 클래스 토글
-    const matchDetail = e.target.closest('div').parentNode;
-    matchDetail.nextElementSibling.classList.toggle('visible')
+    // const matchDetail = e.target.closest('div').parentNode;
+    // matchDetail.nextElementSibling.classList.toggle('visible')
   }
   const onToggle = () => {
     setVisible(!visible);
@@ -70,9 +71,7 @@ const HisotryItem = ({participantInfo}) =>{
           { !clicked ? <FaAngleDown /> : <FaAngleUp /> }
         </Func>
       </MatchHistoryItem>
-      <MatchDetailItem className="match_detail">
-        dd
-      </MatchDetailItem>
+      { clicked ? <MatchDetailItems participants={participants}/> : ''}
     </>
   )
 }
@@ -87,6 +86,7 @@ const MatchHistoryItems = ({matchInfo}) => {
 };
 
 export default MatchHistoryItems;
+
 
 const MatchHistoryItemsBox = styled.div`
 `;
@@ -243,13 +243,5 @@ const Func = styled.div`
       left: 50%;
       transform: translateX(-50%);
     }
-  }
-`;
-
-const MatchDetailItem = styled.div`
-  display: none;
-
-  &.visible{
-    display: block;
   }
 `;

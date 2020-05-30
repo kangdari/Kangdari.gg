@@ -63,8 +63,8 @@ const mode = [
         "kr_description": "공동 선택 라운드의 모든 1/2/3단계 챔피언이 2성으로 등장합니다."
       },
       {
-        "key": "",
-        "name": "",
+        "key": "TFT3_GameVariation_LittlerLegends",
+        "name": "Littler Legends",
         "description": "",
         "kr_name" : "꼬꼬마 전설이",
         "kr_description": "모든 플레이어가 100이 아닌 85의 체력으로 게임을 시작합니다."

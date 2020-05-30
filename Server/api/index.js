@@ -4,6 +4,16 @@ const router = express.Router();
 const { api_key } = require("../config/config");
 const axios = require("axios");
 
+router.get("/search2?:id", async (req, res) => {
+  const summonerPuuid = encodeURI(req.query.puuid);
+  const name = await axios
+    .get(
+      `https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${summonerPuuid}?api_key=${api_key}`
+    )
+    .then((res) => res.data.name);
+  res.json({ name });
+});
+
 // 아이디 검색
 router.get("/search?:summonerName", async (req, res) => {
   const summonerName = encodeURI(req.query.summonerName);
@@ -17,7 +27,7 @@ router.get("/search?:summonerName", async (req, res) => {
       summonerInfo.push(res.data);
     })
     .catch((err) => res.json({ err }));
-
+    
   const {
     // accountId,
     id,
@@ -27,6 +37,8 @@ router.get("/search?:summonerName", async (req, res) => {
     profileIconId,
     revisionDate,
   } = summonerInfo[0];
+
+
   res.json({
     // accountId,
     id,
@@ -42,7 +54,7 @@ router.get("/search?:summonerName", async (req, res) => {
 router.get("/match/rank?:puuid", async (req, res) => {
   const puuid = req.query.puuid;
   let total = 0;
-  const count = 1; // 평균 등수 경기 수 
+  const count = 1; // 평균 등수 경기 수
 
   const getMatchList = axios.get(
     `https://asia.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?count=${count}&api_key=${api_key}`
@@ -80,7 +92,7 @@ router.get("/match/rank?:puuid", async (req, res) => {
 // 각 match의 정보 검색
 router.get("/match/info", async (req, res) => {
   const { puuid } = req.query;
-  const count = 10; // 평균 등수 경기 수 
+  const count = 1; // 평균 등수 경기 수
 
   let wins = 0; // 1등
   let tops = 0; // top
@@ -99,21 +111,13 @@ router.get("/match/info", async (req, res) => {
   const getMatchInfo = async (matches) => {
     const matchInfo = [];
     for (const match_id of matches) {
+      const participantsNameArr = []; // 각
       await axios
         .get(
           `https://asia.api.riotgames.com/tft/match/v1/matches/${match_id}?api_key=${api_key}`
         )
         .then(async (res) => {
           const { info } = res.data;
-
-          // 등수 총합
-          const rank = info.participants.find(user => user.puuid === puuid).placement;
-          rankArr.push(rank);
-
-
-          if (rank === 1) wins++; // 1등
-          else if (rank >= 2 && rank <= 4) tops++; // 2 ~ 4등 
-
           const {
             game_datetime,
             // game_length,
@@ -121,30 +125,50 @@ router.get("/match/info", async (req, res) => {
             participants,
           } = info;
 
+          // 등수 총합
+          const rank = info.participants.find((user) => user.puuid === puuid)
+            .placement;
+          rankArr.push(rank);
+
+          if (rank === 1) wins++;
+          // 1등
+          else if (rank >= 2 && rank <= 4) tops++; // 2 ~ 4등
+
+          // 8명 유저 이름 구하기
+          // 직렬적...>> 느림  ==> 병렬 수행으로 변경 필요
+          // riot api 요청 수 제한으로 인해서 api 요청 불가 // 최대 10게임 정도 가능
+          for (const participant of participants) {
+            await axios
+              .get(
+                `https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${participant.puuid}?api_key=${api_key}`
+              )
+              .then((res) => participantsNameArr.push(res.data.name));
+          }
+        
           matchInfo.push({
             puuid,
             game_datetime, // 게임 날짜
-            // game_length, // 게임 시간
             game_variation, // 은하계 모드
             participants, // 유저
+            participantsNameArr, // 유저 이름 배열(8명)
           });
         })
-        .catch((err) => res.json({ err }));
     }
 
+    // matchInfo
     return {
       matchInfo,
       wins,
       tops,
-      rankArr
-    }
+      rankArr,
+    };
   };
 
   return getMatchList.then(async (matchList) => {
     const matches = matchList.data;
-    await getMatchInfo(matches).then((matchInfo) =>
-      res.status(200).json({ matchInfo })
-    );
+    await getMatchInfo(matches).then((matchInfo) => {
+      res.status(200).json({ matchInfo });
+    });
   });
 });
 

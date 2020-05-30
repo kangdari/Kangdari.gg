@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { CircularProgress } from '@material-ui/core';
 
-import { getSummonerInfo, getAverageRank, getMatchInfo, getSummonerLeagueInfo } from '../../api/api';
+import { getSummonerInfo, getMatchInfo, getSummonerLeagueInfo } from '../../api/api';
 import Header from '../../components/Header';
 
 import SummonerProfile from './Profile/SummonerProfile';
@@ -14,7 +14,7 @@ const Summoner = ({ match }) => {
     const [loading, setLoading] = useState(false);
     const [summonerInfo, setSummonerInfo] = useState(''); // 소환사 정보( 이름, 아이콘ID, 레벨 )
     const [summonerleagueInfo, setSummonerLeagueInfo] = useState([]); // TFT 리그, 티어 정보
-    const [averageRank, setAverageRank] = useState(0);
+    // const [averageRank, setAverageRank] = useState(0);
     const [matchInfo, setMatchInfo] = useState(''); // TFT 전적 정보
 
     // 20게임 평균 
@@ -29,14 +29,13 @@ const Summoner = ({ match }) => {
         // 각 match의 정보 검색
         getSummonerInfo(summonerName).then(async res => {
             const { id, puuid, summonerLevel, profileIconId, revisionDate, name } = res.data;
-
             if(!puuid){
                 setSummonerInfo('');
                 setLoading(false);
             }
             else if(puuid){
                 Promise.all([
-                    getMatchInfo(puuid), getSummonerLeagueInfo(id), getAverageRank(puuid) 
+                    getMatchInfo(puuid), getSummonerLeagueInfo(id),
                 ]).then(([fetchMatchInfo, fetchLeagueInfo, fetchAverageRank]) => {
                     setMatchInfo(fetchMatchInfo.data.matchInfo.matchInfo);
                     setTops(fetchMatchInfo.data.matchInfo.tops);
@@ -44,7 +43,7 @@ const Summoner = ({ match }) => {
                     setRankArr(fetchMatchInfo.data.matchInfo.rankArr);
 
                     setSummonerLeagueInfo(fetchLeagueInfo.data.leagueInfo[0]);
-                    setAverageRank(fetchAverageRank.data.averageRank);
+                    // setAverageRank(fetchAverageRank.data.averageRank);
                     setSummonerInfo({
                         name,
                         profileIconId,
@@ -82,8 +81,8 @@ const Summoner = ({ match }) => {
                                 <SummonerProfile summonerInfo={summonerInfo}/>
                                 <ProfileMenu summonerInfo={summonerInfo} summonerleagueInfo={summonerleagueInfo}/>
                             </SummonerProfileContainer>
-                            <LeagueInfo summonerleagueInfo={summonerleagueInfo} averageRank={averageRank} Awins={wins} Atops={tops} rankArr={rankArr}/> 
-                            { matchInfo.length !== 0 ? <MatchInfo matchInfo={matchInfo}/> : ''}
+                            <LeagueInfo summonerleagueInfo={summonerleagueInfo} Awins={wins} Atops={tops} rankArr={rankArr}/> 
+                            { matchInfo.length !== 0 ? <MatchInfo matchInfo={matchInfo} /> : ''}
                         </>
                     ) : (
                         <SearchNotFound>
@@ -96,7 +95,6 @@ const Summoner = ({ match }) => {
             </Container>
         </>
     );
-
 
     // design test 용 
     // return (

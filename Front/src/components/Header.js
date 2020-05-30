@@ -111,6 +111,7 @@ const LogoContainer = styled(Link)`
     display: flex;
     align-items: center;
     padding-top: 10px;
+    &:hover { text-decoration: none;}
 `;
 
 const Logo = styled.img`

@@ -2,33 +2,29 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const ParticipantItem = () =>{
 
+const ParticipantItem = ({ name }) => {
     return(
         <ParticipantBox>
             <div className="avatar_box">
                 <img src="/avatar/avatar.png" alt="participant__avatar_img" />
             </div>
             {/* to 설정 */}
-            <Link className="nameLink" to="/summoner/userName">userName</Link>
+            
+            <Link className="nameLink" to={`/summoner/${name}`}>{name}</Link>
         </ParticipantBox>
     )
 }
 
-const Participants = () => {
+const Participants = ({ participants, participantsNameArr }) => {
+
     return (
         <ParticipantsContainer>
             {/* 8명 반복 */}
-            <ParticipantItem />
-            <ParticipantItem />
-            <ParticipantItem />
-            <ParticipantItem />
-            <ParticipantItem />
-            <ParticipantItem />
-            <ParticipantItem />
-            <ParticipantItem />
+            { participants.map((participant, i) => <ParticipantItem participant={participant} name={participantsNameArr[i]} key={i}/>)}
         </ParticipantsContainer>
     );
+
 };
 
 export default Participants;
@@ -72,6 +68,7 @@ const ParticipantBox = styled.div`
         margin-left: 5px;
         color: #444;
         word-break: break-all;
+        font-size: 12px;
 
         &:hover{
             color: #888;

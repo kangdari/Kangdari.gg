@@ -26,13 +26,12 @@ const HisotryItem = ({participantInfo}) =>{
     setVisible(!visible);
   }
 
-  const { game_datetime, game_variation, puuid ,participants } =  participantInfo;
+  const { game_datetime, game_variation, puuid, participants, participantsNameArr } =  participantInfo;
   const user = getCurrentUser(participants, puuid); // 검색한 유저의 정보
   const { time_eliminated, placement, traits, units, level } = user;
   const { minute, second } = getGameTime(time_eliminated); // 매치 플레이 시간 계산
   const date = getDate(game_datetime); // 매치 날짜 계산
   const { mode_name, mode_description } = getMode(game_variation); // 게임 모드 
-
 
   return (
     <>
@@ -66,7 +65,7 @@ const HisotryItem = ({participantInfo}) =>{
         {/* Units 목록 props로 전달 */}
         <Units units={units}/>
         {/* Participants 배열을 props로 전달 */}
-        <Participants />
+        <Participants participants={participants} participantsNameArr={participantsNameArr}/>
         <Func onClick={onClick}>
           { !clicked ? <FaAngleDown /> : <FaAngleUp /> }
         </Func>
@@ -79,7 +78,6 @@ const HisotryItem = ({participantInfo}) =>{
 }
 
 const MatchHistoryItems = ({matchInfo}) => {
-
   return (
     <MatchHistoryItemsBox>
       {/* 배열 반복 */}

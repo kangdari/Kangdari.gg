@@ -30,6 +30,7 @@ const TraitItem = ({trait}) => {
     const url = `http://d287nhi7bqyj2m.cloudfront.net/traits/${traitInfo.name}.png`;
 
     return(
+        // style: 시너지 단계
         <TraitBox style={traitInfo.style} onMouseEnter={onToggle} onMouseLeave={onToggle}>
             <img src={url} alt={traitInfo.trait_name} />
             { visible ? <ToolTip content={traitInfo.num_units + ' ' + traitInfo.trait_name} position="top" /> : ' '}
@@ -61,8 +62,8 @@ const TraitsContainer = styled.div`
     margin: 0 0 0 43px;
 
     @media (min-width: 992px){
-        width: 140px;
-        height: 65px;
+        width: 220px;
+        /* height: 65px; */
         margin: 0 20px 0 0;
         flex-wrap: wrap;
     }

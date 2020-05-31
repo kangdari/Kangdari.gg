@@ -98,114 +98,12 @@ const Summoner = ({ match }) => {
 
     // design test 용 
     // return (
-    //     <>
-    //         <Header />
-    //         <Container>
-    //             {/* 축약판 */}
-    //             <MatchDetailItem>
-    //                 <table>
-    //                     <thead>
-    //                         <tr>
-    //                             <th>등수</th>
-    //                             <th>소환사</th>
-    //                             <th>레벨</th>
-    //                             <th>라운드</th>
-    //                             <th>생존시간</th>
-    //                             <th>시너지</th>
-    //                             <th>챔피언</th>
-    //                             <th>잔여골드</th>
-    //                         </tr>
-    //                     </thead>
-    //                     <tbody>
-    //                         <tr>
-    //                             <td className="placement">1</td>
-    //                             <td className="summoner">1</td>
-    //                             <td className="level">1</td>
-    //                             <td className="round">1</td>
-    //                             <td className="time_eliminated">1</td>
-    //                             <td className="traits">1</td>
-    //                             <td className="units">1</td>
-    //                             <td className="gold_left">1</td>
-    //                         </tr>
-    //                         <tr>
-    //                             <td className="placement">1</td>
-    //                             <td className="summoner">1</td>
-    //                             <td className="level">1</td>
-    //                             <td className="round">1</td>
-    //                             <td className="time_eliminated">1</td>
-    //                             <td className="traits">1</td>
-    //                             <td className="units">1</td>
-    //                             <td className="gold_left">1</td>
-    //                         </tr>
 
-    //                     </tbody>
-    //                 </table>
-    //             </MatchDetailItem>
-    //         </Container>
-    //     </>
     // )
 
 };
 
 export default Summoner;
-
-// const MatchDetailItem = styled.div`
-//     display: block;
-//     overflow-x: auto;
-//     overflow-y: hidden;
-
-//     table{
-//         width: 100%;
-//         position: relative;
-//         min-width: 960px;
-
-//         th{
-//             height: 32px;
-//             background-color: #e6e6e6;
-//             color: #646464;
-//             text-align: center;
-//             font-size: 12px;
-//             font-weight: 400;
-//             padding: 10px 0;
-//         }
-//         td{
-//             height: 44px;
-//             padding : 15px 0;
-//         }
-
-//         .placement{
-//             width: 40px;
-//         }
-//         .summoner{
-//             width: auto;
-//         }
-//         .level{
-//             width: 40px;
-//         }
-//         .round{
-//             width: 60px;
-//         }
-//         .time_eliminated{
-//             width: 60px;
-//         }
-//         .traits{
-//             width: 200px;
-//         }
-//         .units{
-//             width: 330px;
-//         }
-//         .gold_left{
-//             width: 75px;
-//         }
-
-//         .placement, .level, .round, .time_eliminated{
-//             text-align: center;
-//             @media (min-width: 992px){
-//                 width: 75px
-//             }
-//         }
-//     }
-// `;
 
 const Container = styled.div`
     margin-top: 100px;

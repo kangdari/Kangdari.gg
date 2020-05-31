@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+
 import { getGameTime, getRound } from '../../../../common/gameUtil';
 import { getSummonerNameByid } from '../../../../api/api';
+
+import Traits from '../Traits';
+import Units from '../Units';
 
 import { CircularProgress } from '@material-ui/core';
 
@@ -12,17 +17,19 @@ const MatchDetailItem = ({ participant, name }) => {
     const { minute, second } = getGameTime(time_eliminated);
     // 라운드 구하기
     const {r, remain } = getRound(last_round);
-
+    
     return(
         <tbody>
             <tr>
                 <td className="placement">{placement}</td>
-                <td className="summoner">{name}</td>
+                <td className="summoner">
+                    <NavLink to={`/summoner/${name}`}>{name}</NavLink>
+                </td>
                 <td className="level">{level}</td>
                 <td className="round">{r}-{remain}</td>
                 <td className="time_eliminated">{minute}:{second}</td>
-                <td className="traits">1</td>
-                <td className="units">1</td>
+                <td className="traits"><Traits traits={traits}/></td>
+                <td className="units"><Units units={units}/></td>
                 <td className="gold_left">{gold_left}</td>
             </tr>
         </tbody>
@@ -132,9 +139,12 @@ const MatchDetailContainer = styled.div`
         width: 100%;
         position: relative;
         min-width: 960px;
+        border-collapse: collapse;
+        margin: 0;
+        padding: 0;
 
         th{
-            height: 32px;
+            /* height: 32px; */
             background-color: #e6e6e6;
             color: #646464;
             text-align: center;
@@ -143,8 +153,7 @@ const MatchDetailContainer = styled.div`
             padding: 10px 0;
         }
         td{
-            height: 44px;
-            padding : 15px 0;
+            vertical-align : middle;
         }
         tbody{
             background: #fff;
@@ -152,8 +161,10 @@ const MatchDetailContainer = styled.div`
 
         .placement{
             width: 40px;
+            height: 40px;
         }
         .summoner{
+            min-width: 140px;
             width: auto;
         }
         .level{
@@ -166,7 +177,7 @@ const MatchDetailContainer = styled.div`
             width: 60px;
         }
         .traits{
-            width: 200px;
+            width: 240px;
         }
         .units{
             width: 330px;

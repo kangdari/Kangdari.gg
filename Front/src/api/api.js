@@ -6,7 +6,7 @@ export const getSummonerInfo = (summonerName) => {
 }
 
 export const getSummonerNameByid = (summonerPuuid) => {
-    return api.get(`/summoner/search2?puuid=${summonerPuuid}`)
+    return api.get(`/summoner/searchBypuuid?puuid=${summonerPuuid}`)
 }
 
 // 소환사의 전체 matchList 

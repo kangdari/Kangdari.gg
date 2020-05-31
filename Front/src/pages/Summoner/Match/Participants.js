@@ -3,25 +3,25 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 
-const ParticipantItem = ({ name }) => {
-    return(
-        <ParticipantBox>
-            <div className="avatar_box">
-                <img src="/avatar/avatar.png" alt="participant__avatar_img" />
-            </div>
-            {/* to 설정 */}
+// const ParticipantItem = ({ name }) => {
+//     return(
+//         <ParticipantBox>
+//             <div className="avatar_box">
+//                 <img src="/avatar/avatar.png" alt="participant__avatar_img" />
+//             </div>
+//             {/* to 설정 */}
             
-            <Link className="nameLink" to={`/summoner/${name}`}>{name}</Link>
-        </ParticipantBox>
-    )
-}
+//             <Link className="nameLink" to={`/summoner/${name}`}>{name}</Link>
+//         </ParticipantBox>
+//     )
+// }
 
-const Participants = ({ participants, participantsNameArr }) => {
+const Participants = ({ participants }) => {
 
     return (
         <ParticipantsContainer>
             {/* 8명 반복 */}
-            { participants.map((participant, i) => <ParticipantItem participant={participant} name={participantsNameArr[i]} key={i}/>)}
+            {/* { participants.map((participant, i) => <ParticipantItem participant={participant} name={participantsNameArr[i]} key={i}/>)} */}
         </ParticipantsContainer>
     );
 

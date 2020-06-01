@@ -51,18 +51,13 @@ const LeagueInfo = ({summonerleagueInfo, Awins, Atops, rankArr}) => {
                                         <span>게임 수</span>
                                         <span>{totalMatch}</span>
                                     </Col>
-                                    {/* <Col xs={6} className="stat">
-                                        <span>평균 등수(api 수정 필요)</span>
-                                        <span># {averageRank}</span>
-                                    </Col> */}
-
                                 </Row>
                             </TierStats>
                     </TierBox>
                 </Col>
-                <Col xl={8}>
+                {/* <Col xl={8}>
                     그래프...
-                </Col>
+                </Col> */}
             </Row>
             {/* ex) 인천 검색 시 tft 전적이 없음  */}
             { rankArr.length !== 0 ? <RecentGames Awins={Awins} Atops={Atops} rankArr={rankArr}/> : '' } 
@@ -78,7 +73,8 @@ const LeagueInfoContainer = styled(Container)`
 `;
 
 const TierBox = styled.div`
-    border: 1px solid #e6e6e6;
+    /* border: 1px solid #e6e6e6; */
+    background: #fff;
 `;
 
 const TierInfo = styled.div`

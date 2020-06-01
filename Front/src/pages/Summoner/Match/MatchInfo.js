@@ -14,8 +14,8 @@ const MatchInfo = ({ matchInfo }) => {
                 <MatchHistory>매치 히스토리</MatchHistory>
                 <LinkBox>
                     <LinkItem to={url} activeClassName="active">전체</LinkItem>
-                    <LinkItem to='/ㄴ' activeClassName="active">랭크</LinkItem>
-                    <LinkItem to='/ㄴ' activeClassName="active">일반</LinkItem>
+                    <LinkItem to={url} activeClassName="active">랭크</LinkItem>
+                    <LinkItem to={url} activeClassName="active">일반</LinkItem>
                 </LinkBox>
                 <MatchHistoryItems matchInfo={matchInfo} />
  

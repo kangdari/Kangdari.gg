@@ -10,8 +10,6 @@ import Units from '../Units';
 
 import { CircularProgress } from '@material-ui/core';
 
-
-
 const MatchDetailItem = ({ participant, name }) => {
     const { gold_left, placement, level, last_round, time_eliminated, traits, units } = participant;
     const { minute, second } = getGameTime(time_eliminated);
@@ -83,7 +81,6 @@ const MatchDetailItems = ({ participants }) => {
         // reduce를 사용하여 Promise.all() 순차적 병렬 실행
         // 2.4s ~ 
         const getParticipantName3 = async () => {
-            console.time("calculatingTime");
             participants.reduce((prevProm, participant) => {
                 return prevProm.then(() => getName(participant.puuid))
             }, Promise.resolve())
@@ -91,7 +88,6 @@ const MatchDetailItems = ({ participants }) => {
                 // 성공 후 처리
                 setParticipantNameArr(nameArr);
                 setLoading(true);
-                console.timeEnd("calculatingTime");
             })
         }
 
@@ -184,6 +180,7 @@ const MatchDetailContainer = styled.div`
         }
         .gold_left{
             width: 75px;
+            text-align: center;
         }
 
         .placement, .level, .round, .time_eliminated{

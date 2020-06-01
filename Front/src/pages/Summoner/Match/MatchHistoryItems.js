@@ -17,11 +17,8 @@ import { FaQuestionCircle } from "react-icons/fa";
 const HisotryItem = ({participantInfo}) =>{
   const [clicked, setClicked] = useState(false); // MatchDetailItem 렌더링 여부 
   const [visible, setVisible] = useState(false); // Tooltip 렌더링 여부
-  const onClick = (e) =>{
+  const onClick = (e) =>{ // 화살표 클릭 함수 
     setClicked(!clicked);
-    // 선택한 화살표의 다음 matchDetail 컴포넌트를 찾아 visible 클래스 토글
-    // const matchDetail = e.target.closest('div').parentNode;
-    // matchDetail.nextElementSibling.classList.toggle('visible')
   }
   const onToggle = () => {
     setVisible(!visible);
@@ -32,6 +29,7 @@ const HisotryItem = ({participantInfo}) =>{
   const { time_eliminated, placement, traits, units, level } = user;
   const { minute, second } = getGameTime(time_eliminated); // 매치 플레이 시간 계산
   const date = getDate(game_datetime); // 매치 날짜 계산
+  console.log(participantInfo)
   const { mode_name, mode_description } = getMode(game_variation); // 게임 모드 
 
   return (
@@ -88,7 +86,6 @@ const MatchHistoryItems = ({matchInfo}) => {
 
 export default MatchHistoryItems;
 
-
 const MatchHistoryItemsBox = styled.div`
 `;
 
@@ -107,7 +104,6 @@ const MatchHistoryItem = styled.div`
         flex-direction: row;
         align-items: center;
     }
-
 `;
 
 const Summary = styled.div`

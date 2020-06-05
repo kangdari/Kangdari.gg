@@ -2,10 +2,32 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { getRanking } from '../api/api';
+import { getTopTierRanking, getDownTierRanking } from '../api/api';
 
-const RankItem = ({ rankInfo, rankNum }) => {
-    const { summonerName, leaguePoints, wins, losses} = rankInfo;
+const RankItem = ({ rankInfo, rankNum, tier }) => {
+    const { summonerName, leaguePoints, wins, losses, rank} = rankInfo;
+    const winRate =  (wins/(wins + losses)*100).toFixed(1);
+
+    if(!tier){
+        return(
+            <>
+                <div className="rankNum item">{rankNum+1}</div>
+                {/* <div className="name item">{summonerName}</div> */}
+                <div className="name item">
+                    <Link to={`/summoner/${summonerName}`}>{summonerName}</Link>
+                </div>
+                <div className="tier item">
+                    <img src={`//d287nhi7bqyj2m.cloudfront.net/emblems/CHALLENGER.png`} alt="tierImg"/>
+                    challenger
+                </div>
+                <div className="lp item">{leaguePoints}LP</div>
+                <div className="winRate item">{winRate}%</div>
+                <div className="wins item">{wins}</div>
+                <div className="losses item">{losses}</div>
+            </>
+        )    
+    }
+
     return(
         <>
             <div className="rankNum item">{rankNum+1}</div>
@@ -14,46 +36,61 @@ const RankItem = ({ rankInfo, rankNum }) => {
                 <Link to={`/summoner/${summonerName}`}>{summonerName}</Link>
             </div>
             <div className="tier item">
-                <img src='//d287nhi7bqyj2m.cloudfront.net/emblems/CHALLENGER.png' alt="tierImg"/>
-                Challenger
+                <img src={`//d287nhi7bqyj2m.cloudfront.net/emblems/${tier.toUpperCase()}.png`} alt="tierImg"/>
+                {tier} {rank}
             </div>
             <div className="lp item">{leaguePoints}LP</div>
-            <div className="winRate item">43%</div>
+            <div className="winRate item">{winRate}%</div>
             <div className="wins item">{wins}</div>
             <div className="losses item">{losses}</div>
         </>
-    )
+    )    
 }
-
-const Ranking = () => {
+// home props는 home 화면에서만 따로 스타일을 적용 시키기 위한 속성 값
+const Ranking = ({ home, tier }) => {
     // 챌린저 랭크 리스트
     const [rankList, setRankList] = useState([]);
 
     useEffect(() => {
-        getRanking().then(ranking => setRankList(ranking.data.rankList));
-    }, [])
+        // 다이아~아이언 티어 api와 챌~마스터 api가 달라서 분기 처리
+        const tierGroup = ['challenger', 'grandmaster','master'];
+        if(tierGroup.includes(tier)){
+            getTopTierRanking(tier).then(ranking => setRankList(ranking.data.rankList));
+        }else{
+            getDownTierRanking(tier).then(ranking => setRankList(ranking.data.rankList));
+        }
+    }, [tier])
 
-    if(!rankList){
-        return(
-            <div>loading...</div>
-        )
-    }
 
-    if(rankList){
-        return (
-            <RankingContainer>
-                <div className="rank menu">순위</div>
-                <div className="summoner menu">소환사</div>
-                <div className="tier menu">티어</div>
-                <div className="menu">LP</div>
-                <div className="winRate menu">승률</div>
-                <div className="wins menu">승</div>
-                <div className="losses menu">패</div>
-                {rankList.map((rank, i) => <RankItem rankInfo={rank} rankNum={i} key={i}/>)}
-            </RankingContainer>
-        );    
-    }
+    return (
+        <RankingContainer>
+            <div className="rank menu">순위</div>
+            <div className="summoner menu">소환사</div>
+            <div className="tier menu">티어</div>
+            <div className="menu">LP</div>
+            <div className="winRate menu">승률</div>
+            <div className="wins menu">승</div>
+            <div className="losses menu">패</div>
+            {/* 경로가 home이면  10명만, 더보기 버튼 렌더링*/}
+            {home ? 
+                <HomeRank rankList={rankList.slice(0,10)}/>
+                :  rankList.map((rank, i) => <RankItem rankInfo={rank} tier={tier} rankNum={i} key={i}/> 
+            )}
+        </RankingContainer>
+    );    
+    
 };
+
+const HomeRank = ({ rankList }) => {
+    return (
+        <>
+            {rankList.map((rank, i) => <RankItem rankInfo={rank} rankNum={i} key={i}/>)}
+            <div className="more">
+                <Link to='/ranking?tier=challenger'>더 보기</Link>
+            </div>
+        </>
+    )
+}
 
 export default Ranking;
 
@@ -100,20 +137,36 @@ const RankingContainer = styled.div`
         background-color: #f6f6f6;
     }
 
-    .wins, .losses{
+    .wins, 
+    .losses{
         display:none;
     }
-    @media (min-width: 576px){
-        width: 85vw;
+
+    .more{
+        grid-column: 1 / 6;
+        font-size: 1rem;
+        padding: 1em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    @media (min-width: 576px) { 
+        width: 80vw;
         margin-left: auto;
         margin-right: auto;
-        .menu, .itme{
+        .menu,
+        .itme{
             font-size: 1rem;
         }
     }
 
     @media (min-width: 768px){
         grid-template-columns: 0.8fr 2fr 1fr 1fr 1fr 0.8fr 0.8fr;
+
+        .more{
+            grid-column: 1 / 8;
+        }
         
         .wins, .losses{
             display: grid;

@@ -30,7 +30,7 @@ const Videos = () => {
 export default Videos;
 
 const Container = styled.div`
-    width: 80%;
+    width: 80vw;
     margin: 0 auto;
     margin-top: 10px;
 `;

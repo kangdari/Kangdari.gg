@@ -73,7 +73,6 @@ const mode = [
 
 // 게임 모드 및 설명
 export const getMode = (key) => {
-    console.log(key)
     const game = mode.find(item => item.key === key);
 
     return(

@@ -217,7 +217,6 @@ router.get("/league/info", async (req, res) => {
     // TFT match 정보가 있을 때
     return res.status(200).json({ leagueInfo });
   });
-  // console.log(leagueInfo)
 });
 
 module.exports = router;

@@ -23,4 +23,7 @@ export const getMatchInfo = (puuid) => {
 export const getSummonerLeagueInfo = (summonerId) => {
     return api.get(`/summoner/league/info?summonerId=${summonerId}`);
 }
-
+// 챌린저 랭킹 (200명) 정보
+export const getRanking = () => {
+    return api.get(`/ranking/challenger`);
+}

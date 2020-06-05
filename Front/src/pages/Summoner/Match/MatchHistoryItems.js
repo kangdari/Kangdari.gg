@@ -29,7 +29,6 @@ const HisotryItem = ({participantInfo}) =>{
   const { time_eliminated, placement, traits, units, level } = user;
   const { minute, second } = getGameTime(time_eliminated); // 매치 플레이 시간 계산
   const date = getDate(game_datetime); // 매치 날짜 계산
-  console.log(participantInfo)
   const { mode_name, mode_description } = getMode(game_variation); // 게임 모드 
 
   return (

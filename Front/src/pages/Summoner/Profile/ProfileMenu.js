@@ -17,8 +17,8 @@ const ProfileMenu = ({ summonerInfo, summonerleagueInfo }) => {
                 { summonerleagueInfo ?
                     <>
                         {/* 경로 설정 필요 */}
-                        <LinkItem to="/" activeClassName="active" >매치 히스토리</LinkItem>
-                        <LinkItem to="/" activeClassName="active" >LP 변화 추이</LinkItem>
+                        <LinkItem to="/ㄴ" activeClassName="active" >매치 히스토리</LinkItem>
+                        <LinkItem to="/ㄴ" activeClassName="active" >LP 변화 추이</LinkItem>
                     </>
                     : '' 
                 }

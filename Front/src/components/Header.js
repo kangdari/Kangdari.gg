@@ -81,6 +81,7 @@ const HeaderContainer = styled.div`
     background-image: url('/bg-image7.jpg');
     background-repeat:no-repeat;
     background-size: cover;
+    background-position: center;
 
 `
 const Container = styled.div`

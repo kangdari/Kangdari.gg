@@ -3,13 +3,15 @@ import styled from 'styled-components';
 
 import Header from '../components/Header';
 import Videos from '../components/Videos';
+import Ranking from '../components/Ranking';
 
 const Home = () => {
     return (
         <HomeBlock>
             <Header />
-            {/* 검색 결과 창 */}
             <Videos />
+            {/*  */}
+            <Ranking />
         </HomeBlock>
     );
 };

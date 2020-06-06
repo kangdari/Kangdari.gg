@@ -15,6 +15,7 @@ const TraitItem = ({trait}) => {
 
     useEffect( () => {
         // style: 시너지 단계, name: 시너지 이름, num_units: 유닛 갯수
+        // style: 1 ~ 4 ( bronze, silver, gold, gold)
         const { style, name, num_units } = trait;
         // name값으로 한글 이름, 설명 찾기
         const { trait_name, trait_description } =  getTrait(name);

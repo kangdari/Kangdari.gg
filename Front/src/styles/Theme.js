@@ -23,6 +23,6 @@ export default {
     borderRadius: '5px',
     tierColor: TIER_COLOR,
     rankColor : ["#11b288", "#207ac7", "#207ac7", "#207ac7", "#a0a0a0", "#a0a0a0", "#a0a0a0", "#a0a0a0"],
-    traitsColor : ['#ca9372', '#92b1bd', '#ffb93b'],
+    traitsColor : ['#ca9372', '#92b1bd', '#ffb93b', '#ffb93b'],
     costColr: ["grey", "#11b288", "#207ac7", "#c440da", "#ffb93b"]
 }

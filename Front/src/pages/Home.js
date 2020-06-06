@@ -10,7 +10,6 @@ const Home = () => {
         <HomeBlock>
             <Header />
             <Videos />
-            {/*  */}
             <Ranking home tier={'challenger'}/>
         </HomeBlock>
     );

@@ -12,7 +12,6 @@ const RankItem = ({ rankInfo, rankNum, tier }) => {
         return(
             <>
                 <div className="rankNum item">{rankNum+1}</div>
-                {/* <div className="name item">{summonerName}</div> */}
                 <div className="name item">
                     <Link to={`/summoner/${summonerName}`}>{summonerName}</Link>
                 </div>
@@ -31,7 +30,6 @@ const RankItem = ({ rankInfo, rankNum, tier }) => {
     return(
         <>
             <div className="rankNum item">{rankNum+1}</div>
-            {/* <div className="name item">{summonerName}</div> */}
             <div className="name item">
                 <Link to={`/summoner/${summonerName}`}>{summonerName}</Link>
             </div>

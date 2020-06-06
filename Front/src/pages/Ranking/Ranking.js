@@ -47,17 +47,6 @@ const RankMenuContainer = styled.div`
     width: 100%;
     margin-top: 10px;
 
-    /* .tier{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 1em 0;
-        font-size: 14px;
-        border: 1px solid lightgrey;
-        background: #fff;
-    } */
-
-
     @media (min-width: 576px){
         width: 75vw;
         margin: 10px auto 0;

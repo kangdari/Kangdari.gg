@@ -1,22 +1,20 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import Header from '../components/Header';
-import Videos from '../components/Videos';
-import Ranking from '../components/Ranking';
+import Header from "../components/Header";
+import Videos from "../components/Videos";
+import RankingBoard from "../components/RankingBoard";
 
 const Home = () => {
-    return (
-        <HomeBlock>
-            <Header />
-            <Videos />
-            <Ranking home tier={'challenger'}/>
-        </HomeBlock>
-    );
+  return (
+    <HomeBlock>
+      <Header />
+      <Videos />
+      <RankingBoard home tier={"challenger"} />
+    </HomeBlock>
+  );
 };
 
 export default Home;
 
-const HomeBlock = styled.div`
-
-`
+const HomeBlock = styled.div``;

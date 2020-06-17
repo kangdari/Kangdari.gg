@@ -91,12 +91,12 @@ const RankingBoard = ({ home, tier }) => {
         ) : rankList.length !== 0 ? (
           currentSummoners.map((rank, i) => <RankItem rankInfo={rank} tier={tier} rankNum={i + indexOfFirstSummoner} key={i} />)
         ) : (
-          <div className="empty">
-            시즌 초기에는 전적 결과가 없을 수 있습니다.
-            <br />
+              <div className="empty">
+                시즌 초기에는 전적 결과가 없을 수 있습니다.
+                <br />
             하위 티어를 검색하세요.
-          </div>
-        )}
+              </div>
+            )}
       </RankingContainer>
       <Pagination tier={tier} postsPerPage={postsPerPage} totalSummonerCount={rankList.length} paginate={paginate} />
     </>
@@ -110,12 +110,11 @@ const HomeRank = ({ rankList }) => {
       {rankList.length !== 0 ? (
         rankList.map((rank, i) => <RankItem rankInfo={rank} rankNum={i} key={i} />)
       ) : (
-        <div className="empty">
-          시즌 초기에는 랭킹 결과가 없을 수 있습니다.
-          <br />
-          더보기를 눌러주세요.
-        </div>
-      )}
+          <div className="empty">
+            <p>시즌 초기에는 랭킹 결과가 없을 수 있습니다.</p>
+            <p>더보기를 눌러주세요.</p>
+          </div>
+        )}
       <div className="more">
         <Link to="/ranking?tier=challenger">더 보기</Link>
       </div>
@@ -191,16 +190,16 @@ const RankingContainer = styled.div`
   }
   /* 전적 없음 */
   .empty {
+    grid-column: 1 / 8;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
     text-align: center;
     line-height: 1.5;
     height: 20vh;
-    font-size: 3rem;
+    font-size: 1em;
     font-weight: 800;
 
-    grid-column: 1 / 8;
   }
 
   @media (min-width: 576px) {

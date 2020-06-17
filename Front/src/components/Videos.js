@@ -50,9 +50,13 @@ const Videos = () => {
 export default Videos;
 
 const Container = styled.div`
-  width: 80vw;
-  margin: 0 auto;
+  width: 100%;
   margin-top: 10px;
+
+  @media (min-width: 576px){
+    width: 80vw;
+    margin: 10px auto 0;
+  }
 `;
 
 const ColBox = styled(Col)`
@@ -77,6 +81,7 @@ const VideoContainer = styled.div`
   position: relative;
   width: 100%;
   padding-top: 56.25%;
+  margin-bottom: 1rem;
 
   .video {
     position: absolute;
@@ -87,4 +92,10 @@ const VideoContainer = styled.div`
     width: 100%;
     height: 100%;
   }
+
+  @media (min-width: 768px){
+    margin-bottom: 0;
+  }
+
+
 `;

@@ -53,7 +53,7 @@ const Container = styled.div`
   width: 100%;
   margin-top: 10px;
 
-  @media (min-width: 576px){
+  @media (min-width: 576px) {
     width: 80vw;
     margin: 10px auto 0;
   }
@@ -93,9 +93,7 @@ const VideoContainer = styled.div`
     height: 100%;
   }
 
-  @media (min-width: 768px){
+  @media (min-width: 768px) {
     margin-bottom: 0;
   }
-
-
 `;

@@ -45,12 +45,18 @@ const Item = ({ item }) => {
   const onToggle = () => {
     setVisible(!visible);
   };
-  return (
-    <div style={{ position: "relative" }} onMouseEnter={onToggle} onMouseLeave={onToggle}>
-      <img src={`${cloud_front}/items/${item}.png`} alt={item} />
-      {visible ? <ToolTip content={kr_item_name} position="bottom" /> : " "}
-    </div>
-  );
+
+  // 999는 두개의 별 모드에서 제한된 아이템을 의미
+  if (item === 999) {
+    return null;
+  } else {
+    return (
+      <div style={{ position: "relative" }} onMouseEnter={onToggle} onMouseLeave={onToggle}>
+        <img src={`${cloud_front}/items/${item}.png`} alt={item} />
+        {visible ? <ToolTip content={kr_item_name} position="bottom" /> : " "}
+      </div>
+    );
+  }
 };
 
 // 사용된 units 배열 전달 받기

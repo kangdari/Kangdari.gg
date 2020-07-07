@@ -156,8 +156,8 @@
   },
   {
     "id": 38,
-    "kr_name": "폭파광의 화약",
-    "name": "Demolitionist's Charge"
+    "kr_name": "전투 기계 방패",
+    "name": "BattlecastArmor"
   },
   {
     "id": 39,
@@ -268,5 +268,10 @@
     "id": 99,
     "kr_name": "도적의 장갑",
     "name": "Thief's Gloves"
+  },
+  {
+    "id": 999,
+    "kr_name": "두개의 별",
+    "name": "2 star"
   }
 ]

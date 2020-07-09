@@ -76,6 +76,13 @@ const mode = [
     kr_name: "두개의 별",
     kr_description: "챔피언이 두 개의 아이템만 소지할 수 있습니다.",
   },
+  {
+    key: "TFT3_GameVariation_SmallerBoards",
+    name: "Dwarf Planet",
+    description: "",
+    kr_name: "왜행성",
+    kr_description: "모든 결투장의 첫 번째 및 마지막 열이 비활성화됩니다.",
+  },
 ];
 
 // 게임 모드 및 설명

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Pagination from "./Pagination/Pagination";
 
 import { getTopTierRanking, getDownTierRanking } from "../api/api";
+import { CircularProgress } from "@material-ui/core";
 
 const RankItem = ({ rankInfo, rankNum, tier }) => {
   const { summonerName, leaguePoints, wins, losses, rank } = rankInfo;
@@ -53,21 +54,27 @@ const RankItem = ({ rankInfo, rankNum, tier }) => {
 const RankingBoard = ({ home, tier }) => {
   // 랭크 리스트
   const [rankList, setRankList] = useState([]);
+  const [loading, setLoading] = useState(false);
   // pagination
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
-  const [postsPerPage] = useState(20); // 페이지 당 20개
+  const [postsPerPage] = useState(20); // 페이지 당 20개]
 
   useEffect(() => {
-    // 다이아~아이언 티어 api와 챌~마스터 api가 달라서 분기 처리
-    const tierGroup = ["challenger", "grandmaster", "master"];
+    setLoading(false);
     const fetchRankList = () => {
+      const tierGroup = ["challenger", "grandmaster", "master"];
       if (tierGroup.includes(tier)) {
-        getTopTierRanking(tier).then((ranking) => setRankList(ranking.data.rankList));
+        getTopTierRanking(tier).then((ranking) => {
+          setRankList(ranking.data.rankList);
+          setLoading(true);
+        });
       } else {
-        getDownTierRanking(tier).then((ranking) => setRankList(ranking.data.rankList));
+        getDownTierRanking(tier).then((ranking) => {
+          setRankList(ranking.data.rankList);
+          setLoading(true);
+        });
       }
     };
-
     fetchRankList();
   }, [tier]);
 
@@ -78,8 +85,8 @@ const RankingBoard = ({ home, tier }) => {
     setCurrentPage(pageNum);
   };
 
-  return (
-    <>
+  if (home) {
+    return (
       <RankingContainer>
         <div className="rank menu">순위</div>
         <div className="summoner menu">소환사</div>
@@ -88,50 +95,71 @@ const RankingBoard = ({ home, tier }) => {
         <div className="winRate menu">승률</div>
         <div className="wins menu">승</div>
         <div className="losses menu">패</div>
-        {/* 경로가 home이면  10명만, 더보기 버튼 렌더링*/}
-        {home ? (
-          <HomeRank rankList={rankList.slice(0, 10)} />
-        ) : rankList.length !== 0 ? (
-          currentSummoners.map((rank, i) => (
-            <RankItem rankInfo={rank} tier={tier} rankNum={i + indexOfFirstSummoner} key={i} />
-          ))
-        ) : (
-          <div className="empty">
-            시즌 초기에는 전적 결과가 없을 수 있습니다.
-            <br />
-            하위 티어를 검색하세요.
+        {!loading ? (
+          <div className="loading">
+            <CircularProgress />
           </div>
+        ) : (
+          <HomeRank loading={loading} rankList={rankList.slice(0, 10)} />
         )}
       </RankingContainer>
-      {home ? null : (
+    );
+  } else {
+    return (
+      <>
+        <RankingContainer>
+          <div className="rank menu">순위</div>
+          <div className="summoner menu">소환사</div>
+          <div className="tier menu">티어</div>
+          <div className="menu">LP</div>
+          <div className="winRate menu">승률</div>
+          <div className="wins menu">승</div>
+          <div className="losses menu">패</div>
+          {!loading ? (
+            <div className="loading">
+              <CircularProgress />
+            </div>
+          ) : (
+            <>
+              {currentSummoners.map((rank, i) => (
+                <RankItem rankInfo={rank} tier={tier} rankNum={i + indexOfFirstSummoner} key={i} />
+              ))}
+            </>
+          )}
+        </RankingContainer>
         <Pagination
           tier={tier}
           postsPerPage={postsPerPage}
           totalSummonerCount={rankList.length}
           paginate={paginate}
         />
-      )}
-    </>
-  );
+      </>
+    );
+  }
 };
 
 // 홈 화면에서 보여지는 챌린져 10명 랭크 리스트
 const HomeRank = ({ rankList }) => {
-  return (
-    <>
-      {rankList.length !== 0 ? (
-        rankList.map((rank, i) => <RankItem rankInfo={rank} rankNum={i} key={i} />)
-      ) : (
-        <div className="empty">
-          <p>시즌 초기에는 랭킹 결과가 없을 수 있습니다.</p>
-          <p>더보기를 눌러주세요.</p>
-        </div>
-      )}
-      <div className="more">
-        <Link to="/ranking?tier=challenger">더 보기</Link>
+  if (rankList.length === 0) {
+    return (
+      <div className="empty">
+        <p>시즌 초기에는 랭킹 결과가 없을 수 있습니다.</p>
+        <p>더보기를 눌러주세요.</p>
       </div>
-    </>
-  );
+    );
+  }
+  if (rankList.length !== 0) {
+    return (
+      <>
+        {rankList.map((rank, i) => (
+          <RankItem rankInfo={rank} rankNum={i} key={i} />
+        ))}
+        <div className="more">
+          <Link to="/ranking?tier=challenger">더 보기</Link>
+        </div>
+      </>
+    );
+  }
 };
 
 export default RankingBoard;
@@ -200,6 +228,15 @@ const RankingContainer = styled.div`
       font-weight: 800;
     }
   }
+
+  .loading {
+    grid-column: 1 / 8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+  }
+
   /* 전적 없음 */
   .empty {
     grid-column: 1 / 8;

@@ -16,7 +16,6 @@ const Unit = ({ unit }) => {
   };
   // items 아이템 배열, rarity(0~4) => 가격, tier 몇 성?
   const { character_id, items, rarity, tier } = unit;
-  console.log(items);
   // 챔피언 한글 이름 가져오기
   const { kr_name, img_name } = getChampionInfo(character_id);
 

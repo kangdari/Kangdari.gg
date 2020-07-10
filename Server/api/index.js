@@ -11,7 +11,8 @@ router.get("/searchBypuuid?:id", async (req, res) => {
     .get(
       `https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${summonerPuuid}?api_key=${api_key}`
     )
-    .then((res) => res.data.name);
+    .then((res) => res.data.name)
+    .catch((err) => res.json({ err }));
   res.json({ name });
 });
 
@@ -28,7 +29,7 @@ router.get("/search?:summonerName", async (req, res) => {
       summonerInfo.push(res.data);
     })
     .catch((err) => res.json({ err }));
-    
+
   const {
     // accountId,
     id,
@@ -38,7 +39,6 @@ router.get("/search?:summonerName", async (req, res) => {
     profileIconId,
     revisionDate,
   } = summonerInfo[0];
-
 
   res.json({
     // accountId,
@@ -67,13 +67,9 @@ router.get("/match/rank?:puuid", async (req, res) => {
     await Promise.all(
       matches.map(async (match_id) => {
         await axios
-          .get(
-            `https://asia.api.riotgames.com/tft/match/v1/matches/${match_id}?api_key=${api_key}`
-          )
+          .get(`https://asia.api.riotgames.com/tft/match/v1/matches/${match_id}?api_key=${api_key}`)
           .then((res) => {
-            const rank = res.data.info.participants.find(
-              (user) => user.puuid === puuid
-            ).placement;
+            const rank = res.data.info.participants.find((user) => user.puuid === puuid).placement;
             total += rank;
           })
           .catch((err) => res.json({ err }));
@@ -82,12 +78,14 @@ router.get("/match/rank?:puuid", async (req, res) => {
     return total;
   };
 
-  return getMatchList.then(async (matchList) => {
-    const matches = matchList.data;
-    await getAverageRank(matches).then((total) =>
-      res.status(200).json({ averageRank: total / count })
-    );
-  });
+  return getMatchList
+    .then(async (matchList) => {
+      const matches = matchList.data;
+      await getAverageRank(matches).then((total) =>
+        res.status(200).json({ averageRank: total / count })
+      );
+    })
+    .catch((err) => res.json(err));
 });
 
 // 각 match의 정보 검색
@@ -114,9 +112,7 @@ router.get("/match/info", async (req, res) => {
     for (const match_id of matches) {
       // const participantsNameArr = []; // 매치 유저 이름 배열
       await axios
-        .get(
-          `https://asia.api.riotgames.com/tft/match/v1/matches/${match_id}?api_key=${api_key}`
-        )
+        .get(`https://asia.api.riotgames.com/tft/match/v1/matches/${match_id}?api_key=${api_key}`)
         .then(async (res) => {
           const { info } = res.data;
           const {
@@ -127,8 +123,7 @@ router.get("/match/info", async (req, res) => {
           } = info;
 
           // 등수 총합
-          const rank = info.participants.find((user) => user.puuid === puuid)
-            .placement;
+          const rank = info.participants.find((user) => user.puuid === puuid).placement;
           rankArr.push(rank);
 
           if (rank === 1) wins++;
@@ -145,7 +140,7 @@ router.get("/match/info", async (req, res) => {
           //     )
           //     .then((res) => participantsNameArr.push(res.data.name));
           // }
-        
+
           matchInfo.push({
             puuid,
             game_datetime, // 게임 날짜
@@ -153,7 +148,7 @@ router.get("/match/info", async (req, res) => {
             participants, // 유저
             // participantsNameArr, // 유저 이름 배열(8명) // 요청 수 제한으로 일단 코드 제외
           });
-        })
+        });
     }
 
     // matchInfo
@@ -196,15 +191,7 @@ router.get("/league/info", async (req, res) => {
       return res.json({ leagueInfo, message: "전적 없음" });
     }
 
-    const {
-      tier,
-      rank,
-      leaguePoints,
-      wins,
-      losses,
-      summonerName,
-      summonerId,
-    } = league.data[0];
+    const { tier, rank, leaguePoints, wins, losses, summonerName, summonerId } = league.data[0];
     leagueInfo.push({
       tier,
       rank,

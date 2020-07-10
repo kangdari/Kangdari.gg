@@ -28,6 +28,7 @@ const TraitItem = ({ trait }) => {
     });
   }, [trait]);
 
+  // console.log(traitInfo.name); // undefined 껴있음
   const url = `http://d287nhi7bqyj2m.cloudfront.net/traits/${traitInfo.name}.png`;
 
   return (

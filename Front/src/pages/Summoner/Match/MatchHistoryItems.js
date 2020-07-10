@@ -1,35 +1,35 @@
 import React, { useState } from "react";
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import Traits from './Traits';
-import Units from './Units';
-// import Participants from './Participants';
-import Tooltip from '../../../components/ToolTip';
-import MatchDetailItems  from './MatchDetailItems/MatchDetailItems';
+import Traits from "./Traits";
+import Units from "./Units";
+import Tooltip from "../../../components/ToolTip";
+import MatchDetailItems from "./MatchDetailItems/MatchDetailItems";
 
-import { getCurrentUser, getGameTime, getDate } from '../../../common/gameUtil';
-import { getMode } from '../../../common/modeUtil';
- 
+import { getCurrentUser, getGameTime, getDate } from "../../../common/gameUtil";
+import { getMode } from "../../../common/modeUtil";
+
 import { FaAngleUp } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
 import { FaQuestionCircle } from "react-icons/fa";
 
-const HisotryItem = ({participantInfo}) =>{
-  const [clicked, setClicked] = useState(false); // MatchDetailItem 렌더링 여부 
+const HisotryItem = ({ participantInfo }) => {
+  const [clicked, setClicked] = useState(false); // MatchDetailItem 렌더링 여부
   const [visible, setVisible] = useState(false); // Tooltip 렌더링 여부
-  const onClick = (e) =>{ // 화살표 클릭 함수 
+  const onClick = (e) => {
+    // 화살표 클릭 함수
     setClicked(!clicked);
-  }
+  };
   const onToggle = () => {
     setVisible(!visible);
-  }
+  };
 
-  const { game_datetime, game_variation, puuid, participants } =  participantInfo; // participantsNameArr 주석 처리
+  const { game_datetime, game_variation, puuid, participants } = participantInfo; // participantsNameArr 주석 처리
   const user = getCurrentUser(participants, puuid); // 검색한 유저의 정보
   const { time_eliminated, placement, traits, units, level } = user;
   const { minute, second } = getGameTime(time_eliminated); // 매치 플레이 시간 계산
   const date = getDate(game_datetime); // 매치 날짜 계산
-  const { mode_name, mode_description } = getMode(game_variation); // 게임 모드 
+  const { mode_name, mode_description } = getMode(game_variation); // 게임 모드
 
   return (
     <>
@@ -38,71 +38,67 @@ const HisotryItem = ({participantInfo}) =>{
         <Summary placement={placement}>
           <div className="rank">#{placement}</div>
           <div className="game_mode">랭크</div>
-          <div className="length">{minute}:{second}</div>
+          <div className="length">
+            {minute}:{second}
+          </div>
           <div className="date">{date}</div>
           <div className="variation">
             {mode_name}
             {mode_description ? (
               <div className="tooltip_box" onMouseEnter={onToggle} onMouseLeave={onToggle}>
-              <FaQuestionCircle /> 
-              { visible ? <Tooltip content={mode_description} position="top" /> : ''}
-            </div>
-            ) : '' }
+                <FaQuestionCircle />
+                {visible ? <Tooltip content={mode_description} position="top" /> : ""}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </Summary>
-       
-        {/* img url, level props로 받아옴 */}
         <Avatar>
           <span className="level">{level}</span>
           <div className="avatar_box">
             <img src="/avatar/avatar.png" alt="img" />
           </div>
         </Avatar>
-        {/* 시너지 목록 props로 전달 */}
-        <Traits traits={traits}/>
-        {/* Units 목록 props로 전달 */}
-        <Units units={units}/>
-        {/* Participants 배열을 props로 전달 */}
-        {/* api 요청 수 제한 문제로 주석 처리 */}
-        {/* <Participants participants={participants} participantsNameArr={participantsNameArr}/> */}
-        <Func onClick={onClick}>
-          { !clicked ? <FaAngleDown /> : <FaAngleUp /> }
-        </Func>
+        {/* 10.14 패치 후 traits, items 결과 값이 []로 리턴 되는 경우가 있음. */}
+        <Traits traits={traits} />
+        <Units units={units} />
+        <Func onClick={onClick}>{!clicked ? <FaAngleDown /> : <FaAngleUp />}</Func>
       </MatchHistoryItem>
-      { clicked ? <MatchDetailItems participants={participants}/> : ''}
+      {clicked ? <MatchDetailItems participants={participants} /> : ""}
     </>
-  )
-}
+  );
+};
 
-const MatchHistoryItems = ({matchInfo}) => {
+const MatchHistoryItems = ({ matchInfo }) => {
   return (
     <MatchHistoryItemsBox>
-      {/* 배열 반복 */}
-      { matchInfo.map((participant, i) => <HisotryItem key={i} participantInfo={participant}/>)}
+      {matchInfo.map((participant, i) => (
+        <HisotryItem key={i} participantInfo={participant} />
+      ))}
     </MatchHistoryItemsBox>
   );
 };
 
 export default MatchHistoryItems;
 
-const MatchHistoryItemsBox = styled.div`
-`;
+const MatchHistoryItemsBox = styled.div``;
 
 const MatchHistoryItem = styled.div`
-    /* 위치 기준 */
-    position: relative;
-    margin-top: 5px;
-    background: #fff;
-    border-top: 1px solid #e6e6e6;
-    border-bottom: 1px solid #e6e6e6;
+  /* 위치 기준 */
+  position: relative;
+  margin-top: 5px;
+  background: #fff;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    @media (min-width: 992px){
-        flex-direction: row;
-        align-items: center;
-    }
+  @media (min-width: 992px) {
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const Summary = styled.div`
@@ -110,15 +106,15 @@ const Summary = styled.div`
     display: flex;
     padding: 6px 35px 0;
 
-    &:before{
+    &:before {
       /* props로 전달 */
-        content: "${props => `#${props.placement}`}";
+        content: "${(props) => `#${props.placement}`}";
         position: absolute;
         left: 0;
         top: 0;
         width: 32px;
         height: 100%;
-        background: ${props => props.theme.rankColor[props.placement-1]};
+        background: ${(props) => props.theme.rankColor[props.placement - 1]};
         color: #fff;
         display: flex;
         justify-content: center;
@@ -128,7 +124,6 @@ const Summary = styled.div`
         @media (min-width: 992px){
             width: 8px;
             content: "";
-
         }
     }
 
@@ -148,7 +143,7 @@ const Summary = styled.div`
             display: block;
             font-size: 16px;
             font-weight: 700;
-            color: ${props => props.theme.rankColor[props.placement-1]};
+            color: ${(props) => props.theme.rankColor[props.placement - 1]};
             margin: 0 10px;
         }
         
@@ -177,45 +172,44 @@ const Summary = styled.div`
 `;
 
 const Avatar = styled.div`
-    display: none;
-    /* padding: 0 35px; */
-    
-    /* 992px 이상에서만 보이도록 */
-    @media (min-width: 992px){
-      display: block;
-      position: relative;
-      margin: 0 15px 0 0;
+  display: none;
+  /* padding: 0 35px; */
+
+  /* 992px 이상에서만 보이도록 */
+  @media (min-width: 992px) {
+    display: block;
+    position: relative;
+    margin: 0 15px 0 0;
+  }
+
+  .level {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ca9372;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 18px;
+    background: #000;
+    color: #ca9372;
+    font-size: 11px;
+  }
+
+  .avatar_box {
+    width: 48px;
+    height: 48px;
+    /* 안보이는 부분 가리기 */
+    overflow: hidden;
+    border-radius: 50%;
+    border: 2px solid #ca9372;
+
+    img {
+      max-height: 48px;
+      margin-left: -12px;
     }
-
-    .level{
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 18px;
-      height: 18px; 
-      border: 1px solid #ca9372;
-      border-radius: 50%;
-      text-align:center;
-      line-height: 18px;
-      background: #000;
-      color: #ca9372;
-      font-size: 11px;
-    }
-
-    .avatar_box{
-      width: 48px;
-      height: 48px;
-      /* 안보이는 부분 가리기 */
-      overflow: hidden; 
-      border-radius: 50%;
-      border: 2px solid #ca9372;
-
-      img{
-        max-height: 48px;
-        margin-left: -12px;
-      }
-    }
-
+  }
 `;
 
 const Func = styled.div`
@@ -227,12 +221,12 @@ const Func = styled.div`
   text-align: center;
   cursor: pointer;
 
-  @media (min-width: 992px){
+  @media (min-width: 992px) {
     height: 100%;
     /* props에 따라서 변경 */
     background: grey;
 
-    svg{
+    svg {
       color: #fff;
       position: absolute;
       bottom: 5px;

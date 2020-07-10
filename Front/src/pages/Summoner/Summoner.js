@@ -59,10 +59,6 @@ const Summoner = ({ match }) => {
   if (loading) {
     return (
       <>
-        <Helmet>
-          <title>{summonerName} - 시즌3.5 전적 - TFT 전적 검색</title>
-          <meta name="title" content={`${summonerName} - 시즌3.5 전적 - TFT 전적 검색 `} />
-        </Helmet>
         <Header />
         <LoadingBox>
           <CircularProgress />
@@ -73,6 +69,10 @@ const Summoner = ({ match }) => {
 
   return (
     <>
+      <Helmet>
+        <title>{summonerName} - 시즌3.5 전적 - TFT 전적 검색</title>
+        <meta name="title" content={`${summonerName} - 시즌3.5 전적 - TFT 전적 검색 `} />
+      </Helmet>
       <Header />
       <Container>
         {/* Summoner 검색 결과 */}

@@ -35,7 +35,6 @@ const Ranking = ({ location }) => {
         <meta name="title" content={`${tier} 랭킹 순위표 - KR`} />
         <meta name="description" content="tft 전적 검색, 순위표" />
       </Helmet>
-
       <Header />
       <RankMenu />
       {/* tier props를 전달 */}
